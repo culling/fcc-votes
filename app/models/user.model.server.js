@@ -13,7 +13,9 @@ var records = [
   , { id: 2, username: 'jill', password: 'birthday', displayName: 'Jill', emails: [ { value: 'jill@example.com' } ] }
 ];
 
+
 exports.findById = function(id, cb) {
+  console.log("findById has been run");
   process.nextTick(function() {
     var idx = id - 1;
     if (records[idx]) {
@@ -25,6 +27,7 @@ exports.findById = function(id, cb) {
 }
 
 exports.findByUsername = function(username, cb) {
+  console.log("findByUsername has been run");
   process.nextTick(function() {
     for (var i = 0, len = records.length; i < len; i++) {
       var record = records[i];

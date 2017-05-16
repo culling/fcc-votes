@@ -1,13 +1,13 @@
 /*
 Free Code Camp: Votes
-
 */
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var config  = require("./config/config.js");
-var passport    = require('./config/passport');
+//var passport    = require('./config/passport');
 var express = require("./config/express");
-passport();
+
 var app = express();
+
 //var mongo = require("./config/mongo");
 
 

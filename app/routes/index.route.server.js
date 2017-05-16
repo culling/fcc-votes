@@ -18,8 +18,6 @@ router.get("/", function(req, res){
     res.render("index", {"title": "Hello World", "user": req.user } );
 });
 
-
-
 router.get('/login',
   function(req, res){
     res.render('login');

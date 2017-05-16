@@ -8,6 +8,7 @@ module.exports  = function(){
 
     passport.use(new Strategy(
     function(username, password, cb) {
+        console.log("local strategy called");
         mongo.users.findByUsername(username, function(err, user) {
         if (err) { return cb(err); }
         if (!user) { return cb(null, false); }
@@ -16,4 +17,18 @@ module.exports  = function(){
         });
     }));
 
+    passport.serializeUser(function(user, cb) {
+        console.log("serializedUser called");        
+        cb(null, user.id);
+    });
+
+    passport.deserializeUser(function(id, cb) {
+        console.log("deserializedUser called");        
+        db.users.findById(id, function (err, user) {
+            if (err) { return cb(err); }
+            cb(null, user);
+        });
+    });
+
+//    return passport;
 };
