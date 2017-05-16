@@ -1,0 +1,27 @@
+{
+  "name": "fcc-votes",
+  "version": "0.0.1",
+  "description": "fcc votes",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm install && bower install",
+    "devmode": "nodemon ./server.js",
+    "c9-install-mongo": "sudo apt-get install -y mongodb-org",
+    "c9-config-mongo": "mkdir data && echo 'mongod --bind_ip=$IP --dbpath=data --nojournal --rest \"$@\"' > mongod && chmod a+x mongod",
+    "c9-run-mongo": "./mongod",
+    "vsc-config-mongo": "mkdir data && echo 'mongod --bind_ip=$IP --dbpath=data --nojournal --rest \"$@\"'",
+    "vsc-run-mongo": "mongod --port 27017 --dbpath=./data"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "bower": "^1.8.0",
+    "ejs": "^2.5.6",
+    "express": "^4.15.2",
+    "mongodb": "^2.2.26",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
+  }
+}
