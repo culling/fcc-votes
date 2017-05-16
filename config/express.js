@@ -1,12 +1,20 @@
 var config      = require("./config");
 var http        = require('http');
 var express     = require("express");
+var cookieParser    = require('cookie-parser');
+var expressSession  = require('express-session');
+
 var app         = express();
+
 
 module.exports = function(){
 var server  = http.createServer(app);
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(cookieParser());
+app.use(expressSession({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+
+
 
 //Views
 app.set("views", "./app/views");
