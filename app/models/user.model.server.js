@@ -4,9 +4,8 @@ var config  = require("./../../config/config");
 var mongo               =   require("mongodb").MongoClient;
 var mongoPort           = config.mongoPort;
 var mongoDatabase       = config.mongoDatabase;
-var collectionName      = "user";
+var collectionName      = "users";
 var mongoUrl =  `mongodb://localhost:${mongoPort}/${mongoDatabase}`;
-
 
 var records = [
     { id: 1, username: 'jack', password: 'secret', displayName: 'Jack', emails: [ { value: 'jack@example.com' } ] }
@@ -40,7 +39,8 @@ exports.findByUsername = function(username, cb) {
 }
 
 
-/*
+
+
 exports.create = function(document, res){
   //console.log(collectionName);
     var db = mongo.connect(mongoUrl);
@@ -59,4 +59,3 @@ exports.create = function(document, res){
         });
     });
 }
-*/
