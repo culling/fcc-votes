@@ -3,11 +3,11 @@ var http        = require('http');
 var express     = require("express");
 var cookieParser    = require('cookie-parser');
 var expressSession  = require('express-session');
-//var passport    = require("./passport");
+var passport    = require("./passport");
 var app         = express();
 
 
-var passport    = require('passport');
+//var passport    = require('passport');
 var mongo       = require("./mongo");
 var Strategy    = require('passport-local').Strategy;
 
@@ -18,7 +18,7 @@ module.exports = function(){
     app.use(bodyParser.urlencoded({extended: false}));
     app.use(cookieParser());
     app.use(expressSession({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
-
+    
     passport.use(new Strategy(
     function(username, password, cb) {
         console.log("local strategy called");
@@ -42,7 +42,7 @@ module.exports = function(){
             cb(null, user);
         });
     });
-
+    
     app.use(passport.initialize());
     app.use(passport.session());
 
