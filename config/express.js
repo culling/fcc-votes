@@ -37,7 +37,7 @@ module.exports = function(){
 
     passport.deserializeUser(function(id, cb) {
         console.log("deserializedUser called");        
-        db.users.findById(id, function (err, user) {
+        mongo.users.findById(id, function (err, user) {
             if (err) { return cb(err); }
             cb(null, user);
         });

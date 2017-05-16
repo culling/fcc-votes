@@ -9,7 +9,8 @@ var router          = express.Router();
 var config      = require("./../../config/config");
 var mongoExport = require("./../../config/mongo");
 
-var passport    = require('./../../config/passport') ;
+var passport    = require("passport");
+//var passport    = require('./../../config/passport') ;
 //var users       = require("./../controllers/user.controller.server");
 
 
@@ -24,7 +25,7 @@ router.get('/login',
   });
   
 router.post('/login',
-  //passport.authenticate('local', { failureRedirect: '/login' }),
+  passport.authenticate('local', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
   });
