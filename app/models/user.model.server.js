@@ -18,6 +18,7 @@ exports.findById = function(id, cb) {
   process.nextTick(function() {
     var idx = id - 1;
     if (records[idx]) {
+      console.log(records[idx]);
       cb(null, records[idx]);
     } else {
       cb(new Error('User ' + id + ' does not exist'));
@@ -31,6 +32,7 @@ exports.findByUsername = function(username, cb) {
     for (var i = 0, len = records.length; i < len; i++) {
       var record = records[i];
       if (record.username === username) {
+        console.log(record);
         return cb(null, record);
       }
     }
@@ -39,7 +41,35 @@ exports.findByUsername = function(username, cb) {
 }
 
 
+/*
+exports.findByUsername = function(username, res){
+    console.log("Find by Username called");
+    var query = { "username" : username };
+    var db = mongo.connect(mongoUrl);
+    mongo.connect(mongoUrl, function(err, db){
+        if(err){console.error(err)};
+        var collection = db.collection(collectionName);
 
+        var results = collection.findOne({username: username},{}, function(err, result){
+        //collection.find({}).toArray(function (err, results){
+            if(err){console.error(err)};
+            if (result){
+                console.log(result);
+                console.log("found user")
+                db.close();
+                return res(null, JSON.stringify(result) );
+            }else{
+                console.log("didnt find user")
+                db.close();
+                return res(null, null);
+                
+            }
+            //db.close();
+            });
+    });
+}
+
+*/
 
 exports.create = function(document, res){
   //console.log(collectionName);

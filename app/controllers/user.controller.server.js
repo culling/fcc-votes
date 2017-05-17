@@ -1,10 +1,15 @@
-exports.renderSignin = function(req, res, next){
-    if(!req.user){
-        res.render("signin", {
-            title:      "Sign-In Form"
-        });
-        console.log(req.body);
-    }else{
-        return res.redirect("/" + req.user.username);
-    }
+//modules
+var models = require("./../../config/mongo");
+
+
+exports.signup = function(req, res){
+    models.users.create(req.body, function(err, response){
+        if(err){console.error(err)};
+        console.log(response);
+    });
+
+    //console.log(req.body);
+    return res.redirect("/");
 }
+
+

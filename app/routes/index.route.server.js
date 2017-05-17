@@ -11,7 +11,7 @@ var mongoExport = require("./../../config/mongo");
 
 var passport    = require("passport");
 //var passport    = require('./../../config/passport') ;
-//var users       = require("./../controllers/user.controller.server");
+var users       = require("./../controllers/user.controller.server");
 
 
 
@@ -42,4 +42,12 @@ router.get('/profile',
     res.render('profile', { user: req.user });
   });
 
+ router.get('/signup',
+  function(req, res){
+    res.render('signup');
+  }); 
+router.post("/signup",
+  function(req, res){
+    users.signup(req, res);
+  });
 module.exports = router;
