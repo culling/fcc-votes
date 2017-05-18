@@ -27,19 +27,16 @@
         
         <div class="container">
         <br />
+        <%- include('partials/header', {title: title}); %>
+        <br />
 
         <% if (!user) { %>
-            <p>Welcome! Please <a href="/login">log in</a>.</p>
+            <%- include('partials/loggedOutBar'); %>
         <% } else { %>
-            <p>Hello, <%= user.username %>. View your <a href="/profile">profile</a>.</p>
+            <%- include('partials/navBar', {user: user}); %>        
+            <p>Hello, <%= user.username %>
         <% } %>
-
-
-        <%- include('partials/header', {title: title, user: user}); %>
-
         </div>
-
-        
 
     </body>
 </html>
