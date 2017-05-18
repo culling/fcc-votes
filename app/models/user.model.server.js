@@ -90,7 +90,7 @@ exports.findByUsername = function(username, res){
             }else{
                 console.log("didnt find user")
                 db.close();
-                return res(null, null);
+                return res(null, null );
             }
             //db.close();
             });

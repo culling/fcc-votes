@@ -7,7 +7,7 @@ module.exports = function(){
     function(username, password, cb) {
         console.log("local strategy called");
         mongo.users.findByUsername(username, function(err, user) {
-        console.log(user.password);
+        console.log(user);
         if (err) { return cb(err); }
         if (!user) { return cb(null, false); }
         if (user.password != password) { return cb(null, false); }
