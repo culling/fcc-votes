@@ -8,6 +8,8 @@ var http        = require('http');
 var express     = require("express");
 var cookieParser    = require('cookie-parser');
 var expressSession  = require('express-session');
+var flash       = require("connect-flash");
+
 
 //express app
 var app         = express();
@@ -23,6 +25,7 @@ module.exports = function(){
     //Passport    
     app.use(passport.initialize());
     app.use(passport.session());
+    app.use(flash());
 
     //Views
     app.set("views", "./app/views");

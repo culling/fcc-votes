@@ -10,7 +10,6 @@ var config      = require("./../../config/config");
 var mongoExport = require("./../../config/mongo");
 
 var passport    = require("passport");
-//var passport    = require('./../../config/passport') ;
 var users       = require("./../controllers/user.controller.server");
 
 
@@ -19,17 +18,37 @@ router.get("/", function(req, res){
     res.render("index", {"title": "Hello World", "user": req.user } );
 });
 
+
+   router.route("/login")
+        .get(
+          function(req, res, next){
+            if(!req.user){
+                res.render('login', {
+                    title:      "Log In",
+                    messages:   req.flash('error') || req.flash('info')
+                });
+            }else{
+                return res.redirect('/');
+            }
+        })
+        .post(passport.authenticate('local', {
+            successRedirect:    '/',
+            failureRedirect:    '/login',
+            failureFlash:       true
+        } ));
+/*
 router.get('/login',
   function(req, res){
-    res.render('login', {message: ""});
+    req.flash();
+    res.render('login', {messages: ""});
   });
   
 router.post('/login',
-  passport.authenticate('local', { failureRedirect: '/login' }),
+  passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
   function(req, res) {
     res.redirect('/');
   });
-  
+*/  
 router.get('/logout',
   function(req, res){
     req.logout();

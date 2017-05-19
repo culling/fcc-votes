@@ -26,9 +26,15 @@
     <body>
         <div class="container">
         <br />
-        <%if (message) {%>
-            <p> <%= message %>
-        <% } %>
+        <%- include('partials/header', {title: title}); %>
+        
+        <br />
+        <% for (var i in messages) { %> 
+            <div class= "flash">
+                <%= messages[i] %>
+            </div> 
+        <% } %>        
+        <br />
 
         <form action="/login" method="post">
              <div class="form-group row">
@@ -44,6 +50,9 @@
                 </div>
             </div>
             <input type="submit" value="Login" >
+            <a href="/">
+                <button type="button"  >Cancel</button>
+            </a>
         </form>
 
 
