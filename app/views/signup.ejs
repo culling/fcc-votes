@@ -28,6 +28,9 @@
         <div class="container">
         <br />
 
+        <%if (message) {%>
+            <p> <%= message %>
+        <% } %>
 
         <form action="/signup" method="post">
              <div class="form-group row">

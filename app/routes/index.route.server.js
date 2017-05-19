@@ -21,7 +21,7 @@ router.get("/", function(req, res){
 
 router.get('/login',
   function(req, res){
-    res.render('login');
+    res.render('login', {message: ""});
   });
   
 router.post('/login',
@@ -44,7 +44,7 @@ router.get('/profile',
 
  router.get('/signup',
   function(req, res){
-    res.render('signup');
+    res.render('signup', {message: ""} );
   }); 
 router.post("/signup",
   function(req, res){
