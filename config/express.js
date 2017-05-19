@@ -35,8 +35,14 @@ module.exports = function(){
     var api = require("./../app/routes/api.route.server");
     app.use("/api", api);
 
+    var polls = require("./../app/routes/polls.route.server");
+    app.use("/polls", polls);
+
     var index = require("./../app/routes/index.route.server");
     app.use("/", index);
+
+
+
 
     //static files
     app.use(express.static('./public'));
