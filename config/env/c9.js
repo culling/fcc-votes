@@ -1,5 +1,6 @@
 module.exports = {
     port: 8080,
     mongoPort: 27017,
-    mongoDatabase:      "mydb"
+    mongoDatabase:      "mydb",
+    pageTitle:          "Free Code Camp - Votes"
 };

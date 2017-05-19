@@ -12,6 +12,9 @@ var mongoExport = require("./../../config/mongo");
 var passport    = require("passport");
 var users       = require("./../controllers/user.controller.server");
 
+router.get("/", function(req, res){
+    res.render('polls/polls', {title: config.pageTitle,  "user": req.user})
+});
 
 
 

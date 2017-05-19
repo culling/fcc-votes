@@ -15,7 +15,7 @@ var users       = require("./../controllers/user.controller.server");
 
 
 router.get("/", function(req, res){
-    res.render("index", {"title": "Hello World", "user": req.user } );
+    res.render("index", {"title": config.pageTitle, "user": req.user } );
 });
 
 
@@ -36,19 +36,7 @@ router.get("/", function(req, res){
             failureRedirect:    '/login',
             failureFlash:       true
         } ));
-/*
-router.get('/login',
-  function(req, res){
-    req.flash();
-    res.render('login', {messages: ""});
-  });
-  
-router.post('/login',
-  passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
-  function(req, res) {
-    res.redirect('/');
-  });
-*/  
+
 router.get('/logout',
   function(req, res){
     req.logout();
