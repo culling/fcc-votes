@@ -28,9 +28,11 @@
         <div class="container">
         <br />
 
-        <%if (message) {%>
-            <p> <%= message %>
-        <% } %>
+        <% for (var i in messages) { %> 
+            <div class= "flash">
+                <%= messages[i] %>
+            </div> 
+        <% } %>        
 
         <form action="/signup" method="post">
              <div class="form-group row">

@@ -51,7 +51,10 @@ router.get('/profile',
 
  router.get('/signup',
   function(req, res){
-    res.render('signup', {message: ""} );
+    res.render('signup', {
+        title:      "Sign Up",
+        messages:   req.flash('error') || req.flash('info')
+    } );
   }); 
 router.post("/signup",
   function(req, res){

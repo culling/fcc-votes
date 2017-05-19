@@ -6,9 +6,9 @@ exports.signup = function(req, res){
     models.users.create(req.body, function(err, response){
         if(err){
             console.error(err)
-            return res.render('login', {message:err});
+            return res.render('signup', {messages: [err]});
         }else{
-            return res.redirect("/");    
+            return res.redirect("/");
         };
     })
 }
