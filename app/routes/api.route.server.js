@@ -9,14 +9,27 @@ var router          = express.Router();
 var config      = require("./../../config/config");
 var mongoExport = require("./../../config/mongo");
 
-var polls= [{id: 1,
+var polls= [
+{id: 1,
     meeting: "Fruits of the World Conference",
     date: new Date,
     question:"What is the best way to eat a mango?", 
     responseOptions:["on it's own", "in a smoothy", "whole"], 
-    votes:[{"jim":0},{"jack":2},{"jill":2}  ] ,
+    votes:[{"username":"jim",           "voteChoice":0},
+            {"username":"jack",         "voteChoice":1},
+            {"username":"jill",         "voteChoice":1}
+    ] ,
+    votingOpen:false },
+{id: 2,
+    meeting: "Vegetables of the World Conference",
+    date: new Date,
+    question:"Is the tomato a vegetable?", 
+    responseOptions:["yes", "no", "whole"], 
+    votes:[{"username":"jim",           "voteChoice":1},
+            {"username":"jack",         "voteChoice":1},
+            {"username":"jill",         "voteChoice":1},
+            {"username":"King Arthur",  "voteChoice":0}  ] ,
     votingOpen:false }
-    
     ]
 
 
