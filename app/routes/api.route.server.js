@@ -9,6 +9,16 @@ var router          = express.Router();
 var config      = require("./../../config/config");
 var mongoExport = require("./../../config/mongo");
 
+var polls= [{id: 1,
+    meeting: "Fruits of the World Conference",
+    date: new Date,
+    question:"What is the best way to eat a mango?", 
+    responseOptions:["on it's own", "in a smoothy", "whole"], 
+    votes:[{"jim":0},{"jack":2},{"jill":2}  ] ,
+    votingOpen:false }
+    
+    ]
+
 
 router.get("/", function(req, res){
     //res.write("API Query");
@@ -19,7 +29,11 @@ router.get("/", function(req, res){
 
 });
 
+router.get("/polls", function(req, res){
+    res.send(polls);
+});
 
+/*
 router.post("/images/new", function(req, res){
     var body = req.body;
     var newDoc = {
@@ -80,6 +94,6 @@ router.get("/images/search", function(req, res){
     }); 
     
 });
-
+*/
 
 module.exports = router;
