@@ -80,9 +80,6 @@ class PollsComponent extends React.Component{
             </ul>
 
             <div> {this.props.poll.votingOpen} </div>
-
-
-
         </div>
         )
     }

@@ -46,6 +46,15 @@ router.get("/polls", function(req, res){
     res.send(polls);
 });
 
+router.post("/polls/new", function(req, res){
+    console.log(req.body);
+    /*
+    res.write("submittd");
+    res.end();
+    */
+    res.send(req.body);
+});
+
 /*
 router.post("/images/new", function(req, res){
     var body = req.body;
