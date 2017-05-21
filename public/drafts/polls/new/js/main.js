@@ -15,8 +15,9 @@ class PollsContainerComponent extends React.Component{
         this.state={
             polls: [],
             newPoll: {
-            pollName: "New Poll",
-            responseOptions:    []
+                meeting : "none",
+                question: "",
+                responseOptions:    []
             }
         }
     }
@@ -39,6 +40,21 @@ class PollsContainerComponent extends React.Component{
         });
     }
 
+    _editMeeting(){
+        let newPoll     = Object.assign( this.state.newPoll);
+        newPoll.meeting = this.meeting.value;
+        console.log("edit Meeting: " + newPoll.meeting);
+        this.setState({newPoll:newPoll});
+    }
+
+    _editPollQuestion(){
+        let newPoll     = Object.assign( this.state.newPoll);
+        newPoll.question = this.pollQuestion.value;
+        console.log("edit Poll Question: " + newPoll.question);
+        this.setState({newPoll:newPoll});
+
+    }
+
     _addResponseOption(){ 
         let newPoll = Object.assign( this.state.newPoll);
         console.log('New Response Option Clicked')
@@ -54,17 +70,34 @@ class PollsContainerComponent extends React.Component{
         let newPoll = Object.assign(this.state.newPoll);
         newPoll.responseOptions.splice(i,1);
         {console.log(newPoll)}
-        
         this.setState({newPoll: newPoll});
         //this.forceUpdate();
     }
+
+
 
 
     _addMeetingOption(){ 
         console.log('New Meeting Option Clicked')
     }
 
-
+    _submitPoll(){
+        console.log("Submit Poll Clicked");
+        console.log(this.state.newPoll);
+        let newPoll = this.state.newPoll;
+        //newPoll.question = 
+        //localStorage.setItem("recipes", (JSON.stringify(this.state.recipes) )   );    
+        jQuery.ajax({
+            method: 'POST',
+            url:"/api/polls/new",
+            data: this.state.newPoll,
+            success: function(){
+                window.location= "/drafts/polls";
+            },
+            datatype: JSON
+        });
+   
+    }
 
     render(){
         return( 
@@ -77,7 +110,9 @@ class PollsContainerComponent extends React.Component{
                         <div className="col-sm-10">
                             <div className="input-group">
 
-                                <select name="meeting" className="form-control">
+                                <select name="meeting" className="form-control" onChange={this._editMeeting.bind(this)} 
+                                ref={(input)=> this.meeting = input} 
+                                >
                                         <option value="none">No Meeting</option>
                                         <option value="Fuits of the World">Fruits of the World</option>
                                         <option value="Vegetables of the World">Vegetables of the World</option>
@@ -92,7 +127,9 @@ class PollsContainerComponent extends React.Component{
                     <div className="form-group row">
                         <label className="col-sm-2">Poll Question</label>
                         <div className="col-sm-10">
-                            <input type="text" name="question" className="form-control"></input>
+                            <input type="text" name="pollQuestion" className="form-control" defaultValue={this.state.newPoll.question } onChange={this._editPollQuestion.bind(this)}
+                            ref={(input)=> this.pollQuestion = input} 
+                            ></input>
                         </div>
                     </div>
 
@@ -115,7 +152,7 @@ class PollsContainerComponent extends React.Component{
 
 
 
-                    <button type="submit" className="btn btn-primary" >Create Poll</button>
+                    <button type="button"  className="btn btn-primary" onClick={this._submitPoll.bind(this)} >Create Poll</button>
                     
                 </form>
 
