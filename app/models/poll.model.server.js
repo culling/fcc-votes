@@ -12,28 +12,33 @@ var mongoUrl =  `mongodb://localhost:${mongoPort}/${mongoDatabase}`;
 function countPolls(callback){
     mongo.connect(mongoUrl, function(err, db ){
         if(err){console.error(err)};
-        var collection = db.collection(mongoCollectionName);
+        var collection = db.collection(collectionName);
         collection.count({}
         , function(err, count){
             if(err){console.error(err)};
             if(count == null){
                 count= 0;
             }
-
+            console.log("within countPolls");
+            console.log(count)
             callback(count);
             db.close();
         });
-    });
+    }); 
 }
+
 
 
 exports.create = function(document, res ){
   //console.log(collectionName);
     var poll    = document;
-    poll.id     = countDocuments(function(count){ return (count+1) });
+    countPolls(function(count){
+    poll.id     = (count+1); 
     poll.date   = new Date;
+    poll.votes  = [];
     poll.votingOpen = true;
 
+    console.log("within Create");
     console.log(poll);
 
     var db = mongo.connect(mongoUrl);
@@ -49,6 +54,29 @@ exports.create = function(document, res ){
                 res(null, document);
                 db.close();
             });
+        });
+    });
+    });
+}
+
+exports.retrieve = function(searchText, res){
+    //var limit = 5;
+    var query = { };
+    var db = mongo.connect(mongoUrl);
+    mongo.connect(mongoUrl, function(err, db){
+        if(err){console.error(err)};
+        var collection = db.collection(collectionName);
+
+        collection.find(query).sort({"id": -1}).toArray(function (err, results){
+            if(err){console.error(err)}
+        //collection.find({}).toArray(function (err, results){
+            if (results.length > 0){
+                console.log(results );
+                res(results);
+            }else{
+                res([{}]);
+            }
+            db.close();
         });
     });
 }

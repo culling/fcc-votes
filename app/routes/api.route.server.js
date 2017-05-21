@@ -48,18 +48,19 @@ router.get("/", function(req, res){
 });
 
 router.get("/polls", function(req, res){
-    res.send(samplePollsObjects);
+    mongoExport.polls.retrieve(null, function(foundDocs){
+        res.send(foundDocs);
+    })
+    //res.send(samplePollsObjects);
 });
 
 
 
 router.post("/polls/new", function(req, res){
     console.log(req.body);
-    /*
-    res.write("submittd");
-    res.end();
-    */
-    res.send(req.body);
+    mongoExport.polls.create(req.body);
+
+    //res.send(req.body);
 });
 
 /*
