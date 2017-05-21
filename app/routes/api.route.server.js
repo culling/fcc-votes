@@ -9,7 +9,13 @@ var router          = express.Router();
 var config      = require("./../../config/config");
 var mongoExport = require("./../../config/mongo");
 
-var polls= [
+
+var passport    = require("passport");
+var users       = require("./../controllers/user.controller.server");
+
+
+
+var samplePollsObjects= [
 {id: 1,
     meeting: "Fruits of the World Conference",
     date: new Date,
@@ -43,7 +49,7 @@ router.get("/", function(req, res){
 });
 
 router.get("/polls", function(req, res){
-    res.send(polls);
+    res.send(samplePollsObjects);
 });
 
 router.post("/polls/new", function(req, res){

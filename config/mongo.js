@@ -2,3 +2,4 @@
 //exports.search  = require('./../app/models/search.model.server');
 
 exports.users    = require('./../app/models/user.model.server');
+exports.polls    = require('./../app/models/poll.model.server');

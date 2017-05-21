@@ -56,6 +56,7 @@ router.get('/profile',
         messages:   req.flash('error') || req.flash('info')
     } );
   }); 
+  
 router.post("/signup",
   function(req, res){
     users.signup(req, res);

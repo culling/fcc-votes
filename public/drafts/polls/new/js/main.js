@@ -13,7 +13,11 @@ class PollsContainerComponent extends React.Component{
     constructor(){
         super();
         this.state={
-            polls: []
+            polls: [],
+            newPoll: {
+            pollName: "New Poll",
+            responseOptions:    []
+            }
         }
     }
 
@@ -21,6 +25,7 @@ class PollsContainerComponent extends React.Component{
         this._polls();
         console.log(this.state);
     }
+
 
 
     _polls(event){
@@ -76,17 +81,16 @@ class PollsContainerComponent extends React.Component{
                     <div className="form-group row">
                         <label className="col-sm-2">Response Options</label>
                         <div className="col-sm-10">
-                            <div className="input-group">
-                                <select name="responseOption" className="form-control">
-                                        <option value="none">No answer</option>
-                                        <option value="option2">Option 2</option>
-                                        <option value="option3">Option 3</option>
-                                </select>
-                                <span className="input-group-btn">
-                                    <button type="button" className="btn btn-info" onClick={this._addResponseOption} >+</button>
-                                </span>
-                            </div>
-                            <input type="text" name="newResponseOption" className="form-control"></input>
+                                <ul>
+                                    {this.state.newPoll.responseOptions.map((responseOption, i) =>  
+                                    <li key={i} responseOption={responseOption} ></li>
+                                        ) }
+                                </ul>
+                                <div> 
+                                     <input type="text" ref={(input) => this.newResponseOption = input }></input>
+                                    <button type="button" onClick={this._addResponseOption.bind(this)}>Add Response Option</button>
+                                </div>
+
                         </div>
                     </div>
 
