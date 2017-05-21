@@ -64,13 +64,23 @@ class PollsComponent extends React.Component{
     render(){
         return (
         <div key={this.props.poll.id } className="poll" > 
+            <h3> {this.props.poll.question} </h3>
             <div> {this.props.poll.id} </div>
             <div> {this.props.poll.meeting} </div>
             <div> {this.props.poll.date} </div>
-            <div> {this.props.poll.question} </div> 
+ 
 
-
-
+{/*
+             <ul>
+                 <div> {this.props.poll.responseOptions.map( (responseOption, i)=> <li key={i} >{responseOption}</li> )} </div>
+             </ul>
+ 
+             <ul> {this.props.poll.votes.map( (vote ) => 
+                 <li key={this.props.poll.id + vote.username + " "+ vote.voteChoice }>
+                     {vote.username} : {vote.voteChoice} 
+                 </li>) }
+             </ul>
+*/}
             <div> {this.props.poll.votingOpen} </div>
         </div>
         )

@@ -31,8 +31,14 @@ function countPolls(callback){
 
 exports.create = function(document, res ){
   //console.log(collectionName);
-    var poll    = document;
+    console.log(document);
+    var poll    = {};
     countPolls(function(count){
+    poll.meeting = document.meeting;
+    poll.question = document.question;
+    poll.responseOptions = [];
+    document["responseOptions[]"].map(responseOption => poll.responseOptions.push(responseOption));
+    //console.log(document["responseOptions[]"]);
     poll.id     = (count+1); 
     poll.date   = new Date;
     poll.votes  = [];
