@@ -42,17 +42,9 @@ class PollsContainerComponent extends React.Component{
         console.log(this.state.polls);
     }
 
-    _polls(event){
-        console.log(this.state.polls)
-        jQuery.ajax({
-            method: 'GET',
-            url:"/api/polls",
-            success: (polls)=>{
-                this.setState({ polls: polls })
-            }
-        });
+    componentWillUpdate(){
+        console.log(this.state.polls);        
     }
-
 
     render(){
         return( 
@@ -77,15 +69,7 @@ class PollsComponent extends React.Component{
             <div> {this.props.poll.date} </div>
             <div> {this.props.poll.question} </div> 
 
-            <ul>
-                <div> {this.props.poll.responseOptions.map( responseOption => <li key={this.props.poll.id +" "+responseOption } >{responseOption}</li> )} </div>
-            </ul>
 
-            <ul> {this.props.poll.votes.map( (vote ) => 
-                <li key={this.props.poll.id + vote.username + " "+ vote.voteChoice }>
-                    {vote.username} : {vote.voteChoice} 
-                </li>) }
-            </ul>
 
             <div> {this.props.poll.votingOpen} </div>
         </div>
