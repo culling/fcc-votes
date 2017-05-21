@@ -19,26 +19,32 @@
         <!-- ES 6 -->
         <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
+        <!-- React -->
+        <script src="/lib/react/react.js"></script>
+        <script src="/lib/react/react-dom.js"></script>
+        <!-- script src="lib/react/JSXTransformer.js"></script -->
+
+
         <!-- Custom -->
-        <script src="js/main.js"></script>
-        <link rel="stylesheet"        href="main.css">
+        <script src="/js/newPoll.js" type="text/babel"></script>
+        
+        <link rel="stylesheet"        href="/main.css">
     </head>
     <body>
         
         <div class="container">
-        <br />
-        <%- include('partials/header', {title: title}); %>
-        <br />
+            <br />
+            <h1>New Poll</h1>
+            <br />
 
-        <% if (!user) { %>
-            <%- include('partials/loggedOutBar'); %>
-        <% } else { %>
-            <%- include('partials/navBar', {user: user}); %>        
+            <div id="test-point"></div>
+                
+            <div id="mount-point"></div>
 
-        <% } %>
-
+            <div id="polls-container" class="polls-container"></div>
 
         </div>
+
 
     </body>
 </html>

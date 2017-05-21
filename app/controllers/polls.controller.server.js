@@ -2,7 +2,7 @@
 var models = require("./../../config/mongo");
 
 
-exports.signup = function(req, res){
+exports.create = function(req, res){
     models.polls.create(req.body, function(err, response){
         if(err){
             console.error(err)

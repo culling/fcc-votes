@@ -45,12 +45,13 @@ router.get("/", function(req, res){
     //res.write('<a href=/')
     //res.end();
     res.sendFile(("apiguide.html"), {root: "public"});
-
 });
 
 router.get("/polls", function(req, res){
     res.send(samplePollsObjects);
 });
+
+
 
 router.post("/polls/new", function(req, res){
     console.log(req.body);

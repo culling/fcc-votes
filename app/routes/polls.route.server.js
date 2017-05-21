@@ -16,6 +16,10 @@ router.get("/", function(req, res){
     res.render('polls/polls', {title: config.pageTitle,  "user": req.user})
 });
 
+router.get("/new", function(req, res){
+    res.render('polls/newPoll', {title: config.pageTitle,  "user": req.user})
+});
+
 
 
 module.exports = router
