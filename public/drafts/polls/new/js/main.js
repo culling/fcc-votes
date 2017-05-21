@@ -40,12 +40,30 @@ class PollsContainerComponent extends React.Component{
     }
 
     _addResponseOption(){ 
+        let newPoll = Object.assign( this.state.newPoll);
         console.log('New Response Option Clicked')
+        let newResponseOption = this.newResponseOption.value;
+        console.log("new Response Option: "+ newResponseOption);
+        newPoll.responseOptions.push(newResponseOption);
+        this.newResponseOption.value = "";
+        //this.forceUpdate();
+        this.setState({newPoll: newPoll})
     }
+
+    _removeResponseOption(i){
+        let newPoll = Object.assign(this.state.newPoll);
+        newPoll.responseOptions.splice(i,1);
+        {console.log(newPoll)}
+        
+        this.setState({newPoll: newPoll});
+        //this.forceUpdate();
+    }
+
 
     _addMeetingOption(){ 
         console.log('New Meeting Option Clicked')
     }
+
 
 
     render(){
@@ -83,12 +101,12 @@ class PollsContainerComponent extends React.Component{
                         <div className="col-sm-10">
                                 <ul>
                                     {this.state.newPoll.responseOptions.map((responseOption, i) =>  
-                                    <li key={i} responseOption={responseOption} ></li>
+                                    <ResponseOption key={i} responseOption={responseOption} onClick={() => this._removeResponseOption(i) } />
                                         ) }
                                 </ul>
-                                <div> 
-                                     <input type="text" ref={(input) => this.newResponseOption = input }></input>
-                                    <button type="button" onClick={this._addResponseOption.bind(this)}>Add Response Option</button>
+                                <div className="input-group">
+                                     <input type="text"     className="form-control" ref={(input) => this.newResponseOption = input }></input>
+                                    <button type="button"   className="btn btn-info" onClick={this._addResponseOption.bind(this)}>+</button>
                                 </div>
 
                         </div>
@@ -107,6 +125,19 @@ class PollsContainerComponent extends React.Component{
     }
 }
 
+class ResponseOption extends React.Component{
+    render(){
+        return (
+            <div className="row input-group">
+                
+                <input type="text" disabled="disabled" className="form-control" value={this.props.responseOption} ></input>
+                    <span className="input-group-btn">
+                        <button type="button" onClick={this.props.onClick} className="btn btn-info">-</button> 
+                    </span>
+            </div>
+        )
+    }
+}
 
 ReactDOM.render (
     <PollsContainerComponent />, document.getElementById('mount-point')
