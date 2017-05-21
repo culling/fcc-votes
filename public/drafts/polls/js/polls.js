@@ -29,10 +29,18 @@ class PollsContainerComponent extends React.Component{
     }
 
     componentWillMount(){
-        this._polls();
-        console.log(this.state);
-    }
+        console.log(this.state.polls)
+        jQuery.ajax({
+            method: 'GET',
+            url:"/api/polls",
+            success: (polls)=>{
+                this.setState({ polls: polls })
+            }
+        });
 
+        //this._polls();
+        console.log(this.state.polls);
+    }
 
     _polls(event){
         console.log(this.state.polls)
@@ -40,7 +48,7 @@ class PollsContainerComponent extends React.Component{
             method: 'GET',
             url:"/api/polls",
             success: (polls)=>{
-                this.setState({ polls })
+                this.setState({ polls: polls })
             }
         });
     }
@@ -51,7 +59,7 @@ class PollsContainerComponent extends React.Component{
             <div id="polls-container" className="polls-container">
                 <p>Polls Container</p>
 
-                    { this.state.polls.map( pollObject => <PollsComponent key={pollObject.id} poll={pollObject} /> ) }
+                    { this.state.polls.map( (pollObject, i) => <PollsComponent key={i} poll={pollObject} /> ) }
 
             </div>
         );

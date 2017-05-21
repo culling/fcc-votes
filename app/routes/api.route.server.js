@@ -58,7 +58,9 @@ router.get("/polls", function(req, res){
 
 router.post("/polls/new", function(req, res){
     console.log(req.body);
-    mongoExport.polls.create(req.body);
+    mongoExport.polls.create(req.body, function(res){
+        
+    } );
 
     //res.send(req.body);
 });

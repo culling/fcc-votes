@@ -90,11 +90,11 @@ class PollsContainerComponent extends React.Component{
         jQuery.ajax({
             method: 'POST',
             url:"/api/polls/new",
-            data: this.state.newPoll,
+            data: JSON.stringify(this.state.newPoll),
             success: function(){
                 window.location= "/drafts/polls";
             },
-            datatype: JSON
+            datatype: "string"
         });
    
     }
