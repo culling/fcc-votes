@@ -59,30 +59,47 @@ class PollsContainerComponent extends React.Component{
 }
 
 class PollsComponent extends React.Component{
-
+    _voteNow (){
+        console.log("Vote now Clicked");
+    }
 
     render(){
         return (
         <div key={this.props.poll.id } className="poll" > 
             <h3> {this.props.poll.question} </h3>
-            <div> {this.props.poll.id} </div>
-            <div> {this.props.poll.meeting} </div>
-            <div> {this.props.poll.date} </div>
+            <div>Question ID: {this.props.poll.id} </div>
+            <div>Meeting: {this.props.poll.meeting} </div>
+            <div>Poll Created On: {this.props.poll.date} </div>
  
 
-{/*
-             <ul>
-                 <div> {this.props.poll.responseOptions.map( (responseOption, i)=> <li key={i} >{responseOption}</li> )} </div>
-             </ul>
- 
-             <ul> {this.props.poll.votes.map( (vote ) => 
-                 <li key={this.props.poll.id + vote.username + " "+ vote.voteChoice }>
-                     {vote.username} : {vote.voteChoice} 
-                 </li>) }
-             </ul>
-*/}
-            <div> {this.props.poll.votingOpen} </div>
+            <div>
+                <h4> Response Options</h4>
+                <ul>
+                    <div> {this.props.poll.responseOptions.map( (responseOption, i)=> <li key={i} >{responseOption}</li> )} </div>
+                </ul>
+             </div>
+
+             <div>
+                 <h4> Votes </h4>
+                    {this.props.poll.votes.count > 0 && 
+                    <ul> {this.props.poll.votes.map( (vote ) => 
+                        <li key={this.props.poll.id + vote.username + " "+ vote.voteChoice }>
+                            {vote.username} : {vote.voteChoice} 
+                        </li>) }
+                    </ul>}
+                    {this.props.poll.votes.length == 0 && 
+                        <b> No votes taken yet </b>
+                    }
+             </div>
+
+            { (this.props.poll.votingOpen == true) && 
+                <div>
+                     <button type="button" className="btn btn-primary" onClick={this._voteNow.bind(this)}> Vote Now </button>
+                </div>
+            }
+            <br />
         </div>
+
         )
     }
 
