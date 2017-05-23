@@ -51,8 +51,14 @@ router.get("/polls", function(req, res){
     mongoExport.polls.retrieve(null, function(foundDocs){
         res.send(foundDocs);
     })
-    //res.send(samplePollsObjects);
 });
+
+router.get("/meetings", function(req, res){
+    mongoExport.polls.retrieveMeetings(null, function(foundDocs){
+        res.send(foundDocs);
+    })
+});
+
 
 
 
@@ -61,8 +67,6 @@ router.post("/polls/new", function(req, res){
     mongoExport.polls.create(req.body, function(res){
         
     } );
-
-    //res.send(req.body);
 });
 
 /*

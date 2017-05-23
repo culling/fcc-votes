@@ -8,7 +8,6 @@ var collectionName      = "polls";
 var mongoUrl =  `mongodb://localhost:${mongoPort}/${mongoDatabase}`;
 
 
-
 function countPolls(callback){
     mongo.connect(mongoUrl, function(err, db ){
         if(err){console.error(err)};
@@ -74,6 +73,28 @@ exports.retrieve = function(searchText, res){
         var collection = db.collection(collectionName);
 
         collection.find(query).sort({"id": -1}).toArray(function (err, results){
+            if(err){console.error(err)}
+        //collection.find({}).toArray(function (err, results){
+            if (results.length > 0){
+                console.log(results );
+                res(results);
+            }else{
+                res([{}]);
+            }
+            db.close();
+        });
+    });
+}
+
+exports.retrieveMeetings = function(searchText, res){
+    //var limit = 5;
+    var query = { };
+    var db = mongo.connect(mongoUrl);
+    mongo.connect(mongoUrl, function(err, db){
+        if(err){console.error(err)};
+        var collection = db.collection(collectionName);
+
+        collection.distinct("meeting", function (err, results){
             if(err){console.error(err)}
         //collection.find({}).toArray(function (err, results){
             if (results.length > 0){

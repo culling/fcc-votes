@@ -14,6 +14,7 @@ class PollsContainerComponent extends React.Component{
         super();
         this.state={
             polls: [],
+            meetings: [],
             newPoll: {
                 meeting : "none",
                 question: "",
@@ -23,13 +24,7 @@ class PollsContainerComponent extends React.Component{
     }
 
     componentWillMount(){
-        this._polls();
-        console.log(this.state);
-    }
 
-
-
-    _polls(event){
         console.log(this.state.polls)
         jQuery.ajax({
             method: 'GET',
@@ -38,7 +33,17 @@ class PollsContainerComponent extends React.Component{
                 this.setState({ polls })
             }
         });
+
+        jQuery.ajax({
+            method: 'GET',
+            url:"/api/meetings",
+            success: (meetings)=>{
+                this.setState({ meetings });
+                console.log(this.state);
+            }
+        });
     }
+
 
     _editMeeting(){
         let newPoll     = Object.assign( this.state.newPoll);
@@ -81,6 +86,15 @@ class PollsContainerComponent extends React.Component{
         console.log('New Meeting Option Clicked')
     }
 
+    _newMeeting(){
+        let newPoll     = Object.assign( this.state.newPoll);
+        newPoll.meeting = this.newMeeting.value;
+        console.log("new Meeting Name: " + newPoll.meeting);
+        this.setState({newPoll:newPoll});
+    }
+
+
+
     _submitPoll(){
         console.log("Submit Poll Clicked");
         console.log(this.state.newPoll);
@@ -113,17 +127,27 @@ class PollsContainerComponent extends React.Component{
                                 <select name="meeting" className="form-control" onChange={this._editMeeting.bind(this)} 
                                 ref={(input)=> this.meeting = input} 
                                 >
+                                    <optgroup label="No Meeting">
                                         <option value="none">No Meeting</option>
-                                        <option value="Fuits of the World">Fruits of the World</option>
-                                        <option value="Vegetables of the World">Vegetables of the World</option>
+                                    </optgroup>
+                                    <optgroup label="Existing Meetings">
+                                        {this.state.meetings.map((meeting, i) => <option key={i} value={meeting}>{meeting}</option> )}
+                                    </optgroup>
                                 </select>
-                                <span className="input-group-btn">
-                                    <button type="button" className="btn btn-info" onClick={this._addMeetingOption} >+</button>
-                                </span>
+    
                             </div>
                         </div>
                     </div>
-                    
+                    <div className="form-group row">
+                        <label className="col-sm-2">New Meeting Name</label>
+                        <div className="col-sm-10">                        
+                            <input type="text" name="newMeeting" className="form-control" defaultValue={"" } onChange={this._newMeeting.bind(this)}
+                            ref={(input)=> this.newMeeting = input} 
+                            ></input>
+                        </div>
+                    </div>  
+
+
                     <div className="form-group row">
                         <label className="col-sm-2">Poll Question</label>
                         <div className="col-sm-10">

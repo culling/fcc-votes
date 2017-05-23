@@ -2,15 +2,6 @@ $('document').ready(function() {
     console.log("polls.js loaded");
 });
 
-/*
-function showPolls(){
-    var pollsURL = "/api/polls";
-    console.log(pollsURL);
-    $.getJSON(pollsURL, function(returnValue){
-        //console.log(returnValue);
-    });
-};
-*/
 
 class TestComponent extends React.Component {
     render(){
