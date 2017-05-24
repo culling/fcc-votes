@@ -13,11 +13,11 @@ var passport    = require("passport");
 var users       = require("./../controllers/user.controller.server");
 
 router.get("/", function(req, res){
-    res.render('polls/polls', {title: config.pageTitle,  "user": req.user})
+    res.render('polls/polls', {title: config.pageTitle,  "user": req.user, "userString": JSON.stringify(req.user)})
 });
 
 router.get("/new", function(req, res){
-    res.render('polls/newPoll', {title: config.pageTitle,  "user": req.user})
+    res.render('polls/newPoll', {title: config.pageTitle,  "user": req.user })
 });
 
 

@@ -50,13 +50,17 @@ class PollsContainerComponent extends React.Component{
 }
 
 class PollsComponent extends React.Component{
-    _voteNow (){
+    _voteNow (responseOption, username){
         console.log("Vote now Clicked");
+        console.log("Response Option: ");
+        console.log( responseOption.responseOption);
+        console.log("Username: " )
+        console.log(username);
     }
 
     render(){
         return (
-        <div key={this.props.poll.id } className="poll" > 
+        <div className="poll" > 
             <h3> {this.props.poll.question} </h3>
             <div>Question ID: {this.props.poll.id} </div>
             <div>Meeting: {this.props.poll.meeting} </div>
@@ -66,7 +70,12 @@ class PollsComponent extends React.Component{
             <div>
                 <h4> Response Options</h4>
                 <ul>
-                    <div> {this.props.poll.responseOptions.map( (responseOption, i)=> <li key={i} >{responseOption}</li> )} </div>
+                    {/*<div> {this.props.poll.responseOptions.map( (responseOption, i)=> <li key={i} >{responseOption}</li> )} </div> */}
+                    <div> {this.props.poll.responseOptions.map( (responseOption, i)=> <ResponseOptionComponent key={i} 
+                    responseOption={responseOption}
+                    onClick = { ()=> this._voteNow({responseOption}, user.username)}
+                    poll={this.props.poll} /> )} </div>
+
                 </ul>
              </div>
 
@@ -94,6 +103,21 @@ class PollsComponent extends React.Component{
         )
     }
 
+
+}
+
+
+class ResponseOptionComponent extends React.Component{
+render(){
+    return(
+        <div className="responseOption">
+
+            { (this.props.poll.votingOpen == true) && 
+                     <button type="button" className="btn btn-primary" onClick={this.props.onClick } > {this.props.responseOption} </button>
+            }
+        </div>
+    )
+}
 
 }
 

@@ -40,8 +40,13 @@
             <%- include('./../partials/loggedOutBar'); %>
         <% } else { %>
             <%- include('./../partials/navBar', {user: user}); %>        
+            <h3> <%= user.username %> </h3>
+            <script type="text/javascript"> 
+                var user = <%- userString  %>
+            </script>
 
         <% } %>
+
 
         <br />
         <div id="test-point"></div>
