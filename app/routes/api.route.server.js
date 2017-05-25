@@ -69,6 +69,13 @@ router.post("/polls/new", function(req, res){
     } );
 });
 
+router.post("/polls/update", function(req, res){
+    //console.log(req.body);
+    mongoExport.polls.update(req.body, function(res){
+        //console.log(res);
+    } );
+});
+
 /*
 router.post("/images/new", function(req, res){
     var body = req.body;

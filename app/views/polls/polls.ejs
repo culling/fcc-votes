@@ -16,6 +16,12 @@
             crossorigin="anonymous" >
         </script>
 
+
+
+
+
+
+
         <!-- ES 6 -->
         <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
@@ -25,6 +31,11 @@
         <!-- script src="lib/react/JSXTransformer.js"></script -->
 
         <!-- Custom -->
+            <script type="text/javascript"> 
+                    var user = <%- userString %>
+            </script>
+
+
         <script src="/js/main.js"></script>
         <script src="/js/polls.js" type="text/babel" ></script>
         
@@ -41,9 +52,6 @@
         <% } else { %>
             <%- include('./../partials/navBar', {user: user}); %>        
             <h3> <%= user.username %> </h3>
-            <script type="text/javascript"> 
-                var user = <%- userString  %>
-            </script>
 
         <% } %>
 

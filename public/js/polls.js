@@ -69,6 +69,14 @@ class PollsComponent extends React.Component{
         poll.votes.push({username:username, voteChoice: responseOption.responseOption});
         this.setState({poll: poll});
 
+        console.log(this.props.poll)
+        jQuery.ajax({
+            method: 'POST',
+            url:"/api/polls/update",
+            data: poll,
+            datatype: "json"
+        });
+
         
     }
 

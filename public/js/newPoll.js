@@ -38,8 +38,15 @@ class PollsContainerComponent extends React.Component{
             method: 'GET',
             url:"/api/meetings",
             success: (meetings)=>{
+                console.log("Meetings: ")
+                console.log(typeof(meetings) );
+                
+                if (typeof(meetings) == "object" ){
+                    meetings = ["New Meeting"]
+                }
+                
                 this.setState({ meetings });
-                console.log(this.state);
+                //console.log(this.state);
             }
         });
     }
