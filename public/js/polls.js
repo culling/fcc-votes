@@ -4,13 +4,47 @@ $('document').ready(function() {
 
 
 class TestComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { message: '' };
+    }
+
+    componentDidMount() {
+    // grab state from the server
+    $.ajax({ url: '/message' })
+        .then(function(data) {
+        this.setState(data);
+        }.bind(this))
+    // listen for state changes on the socket
+    socket.on('new state', function(newState) {
+        this.setState(newState);
+    }.bind(this));
+    }
+
+
+  _handleChangeMessage(e) {
+    this.setState({ message: e.target.value });
+    console.log(this.state.message);
+  }
+
+  render() {
+    return (
+    <div><h1> React is Go! </h1> 
+        <input type="text" value={this.state.message} onChange={this._handleChangeMessage.bind(this)} />
+    </div>
+    )
+  }
+};
+
+/*
+class TestComponent extends React.Component {
     render(){
         return (
-        <div> React is Go! </div>
+        <div><h1> React is Go! </h1> </div>
         );
     }
 }
-
+*/
 class PollsContainerComponent extends React.Component{
     constructor(){
         super();

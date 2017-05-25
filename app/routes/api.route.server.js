@@ -12,31 +12,10 @@ var mongoExport = require("./../../config/mongo");
 
 var passport    = require("passport");
 var users       = require("./../controllers/user.controller.server");
+var polls       = require("./../controllers/polls.controller.server");
 
 
 
-var samplePollsObjects= [
-{id: 1,
-    meeting: "Fruits of the World Conference",
-    date: new Date,
-    question:"What is the best way to eat a mango?", 
-    responseOptions:["on it's own", "in a smoothy", "whole"], 
-    votes:[{"username":"jim",           "voteChoice":0},
-            {"username":"jack",         "voteChoice":1},
-            {"username":"jill",         "voteChoice":1}
-    ] ,
-    votingOpen:false },
-{id: 2,
-    meeting: "Vegetables of the World Conference",
-    date: new Date,
-    question:"Is the tomato a vegetable?", 
-    responseOptions:["yes", "no", "whole"], 
-    votes:[{"username":"jim",           "voteChoice":1},
-            {"username":"jack",         "voteChoice":1},
-            {"username":"jill",         "voteChoice":1},
-            {"username":"King Arthur",  "voteChoice":0}  ] ,
-    votingOpen:false }
-    ]
 
 
 router.get("/", function(req, res){
@@ -59,7 +38,9 @@ router.get("/meetings", function(req, res){
     })
 });
 
-
+router.post("/message", function(req, res){
+    polls.statusChange("myio","new state") ;
+} );
 
 
 router.post("/polls/new", function(req, res){
