@@ -13,3 +13,14 @@ exports.create = function(req, res){
         };
     })
 }
+
+exports.statusChange          = function(io, socket){
+    io.emit("new state",function(){
+        console.log("io emit - polls.controller.servr.js")
+    } );
+
+    socket.on("new state", function(){
+        console.log("socket on - polls.controller.servr.js")
+        io.emit("new state");
+    });
+}

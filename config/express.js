@@ -6,6 +6,7 @@ var mongo       = require("./mongo");
 //Modules
 var http        = require('http');
 var express     = require("express");
+var socketio    = require('socket.io');
 var cookieParser    = require('cookie-parser');
 var expressSession  = require('express-session');
 var flash       = require("connect-flash");
@@ -15,8 +16,24 @@ var flash       = require("connect-flash");
 var app         = express();
 
 
+
 module.exports = function(){
+//    var server  = http.createServer(app);
+
+    //Socket.io
     var server  = http.createServer(app);
+    var io      = socketio.listen(server);
+
+    io.on('connection', function (socket) {
+
+        console.log('server - connection event');
+
+        socket.on('new state', function (data) {
+            console.log('server - statusChange');
+            socket.broadcast.emit('new state');
+        });
+    });
+
     var bodyParser = require("body-parser");
     app.use(bodyParser.urlencoded({extended: false}));
     app.use(cookieParser());
