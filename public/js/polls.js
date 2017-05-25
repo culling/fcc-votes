@@ -68,6 +68,8 @@ class PollsComponent extends React.Component{
         
         poll.votes.push({username:username, voteChoice: responseOption.responseOption});
         this.setState({poll: poll});
+
+        
     }
 
     render(){
