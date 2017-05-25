@@ -56,6 +56,18 @@ class PollsComponent extends React.Component{
         console.log( responseOption.responseOption);
         console.log("Username: " )
         console.log(username);
+
+        console.log("Poll: " )
+        console.log(this.props.poll);
+
+        var poll = Object.assign(this.props.poll); 
+        
+        poll.votes = poll.votes.filter(function(vote){
+            return vote.username != username
+        });
+        
+        poll.votes.push({username:username, voteChoice: responseOption.responseOption});
+        this.setState({poll: poll});
     }
 
     render(){
@@ -81,7 +93,7 @@ class PollsComponent extends React.Component{
 
              <div>
                  <h4> Votes </h4>
-                    {this.props.poll.votes.count > 0 && 
+                    {this.props.poll.votes.length > 0 && 
                     <ul> {this.props.poll.votes.map( (vote ) => 
                         <li key={this.props.poll.id + vote.username + " "+ vote.voteChoice }>
                             {vote.username} : {vote.voteChoice} 

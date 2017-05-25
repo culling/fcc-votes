@@ -107,3 +107,40 @@ exports.retrieveMeetings = function(searchText, res){
         });
     });
 }
+
+
+exports.update = function(document, res ){
+  //console.log(collectionName);
+    console.log(document);
+    var poll    = {};
+    //countPolls(function(count){
+    //poll.meeting = document.meeting;
+    //poll.question = document.question;
+    //poll.responseOptions = [];
+    //document["responseOptions[]"].map(responseOption => poll.responseOptions.push(responseOption));
+    //console.log(document["responseOptions[]"]);
+    //poll.id     = (count+1); 
+    //poll.date   = new Date;
+    //poll.votes  = [];
+    //poll.votingOpen = true;
+
+    console.log("within Update");
+    console.log(poll);
+
+    var db = mongo.connect(mongoUrl);
+    mongo.connect(mongoUrl, function(err, db){
+        if(err){console.error(err)};
+        var collection = db.collection( collectionName );
+        collection.insertOne(poll, function(err){
+            if(err){console.error(err)}
+            collection.findOne(document,
+            {},
+            function(err, document){
+                if(err){console.error(err)};
+                res(null, document);
+                db.close();
+            });
+        });
+    });
+    //});
+}
