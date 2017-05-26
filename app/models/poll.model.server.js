@@ -30,13 +30,13 @@ function countPolls(callback){
 
 exports.create = function(document, res ){
   //console.log(collectionName);
-    //console.log(document);
-    var poll    = {};
+    console.log(document);
+    var poll    = document;
     countPolls(function(count){
-    poll.meeting = document.meeting;
-    poll.question = document.question;
-    poll.responseOptions = [];
-    document["responseOptions[]"].map(responseOption => poll.responseOptions.push(responseOption));
+    //poll.meeting = document.meeting;
+    //poll.question = document.question;
+    //poll.responseOptions = [];
+    //document["responseOptions[]"].map(responseOption => poll.responseOptions.push(responseOption));
     //console.log(document["responseOptions[]"]);
     poll.id     = (count+1); 
     poll.date   = new Date;
@@ -112,8 +112,11 @@ exports.retrieveMeetings = function(searchText, res){
 exports.update = function(document, res ){
   //console.log(collectionName);
 
-  console.log(document);
-
+    //console.log(document);
+    var poll    = document;
+    delete poll._id;
+    //console.log(poll._id);
+/*
     var poll    = {};
     //countPolls(function(count){
     poll.meeting = document.meeting;
@@ -127,7 +130,7 @@ exports.update = function(document, res ){
     document["votes"].map(vote => poll.votes.push(vote));
     
     poll.votingOpen = document.votingOpen;
-
+*/
     console.log("within Update");
     console.log( poll );
 
@@ -135,15 +138,13 @@ exports.update = function(document, res ){
     mongo.connect(mongoUrl, function(err, db){
         if(err){console.error(err)};
         var collection = db.collection( collectionName );
-        collection.replaceOne({_id: poll._id},
-                poll
-                /*,,
-                function(err, document){
-                if(err){console.error(err)};
-                res(null, document);
-                db.close();
-            }
-            */
+        collection.update({ id: poll.id},
+                poll ,function(err, result){
+                    if(err){console.error(err)}
+                    console.log("Result:");
+                    console.log(result );
+                    db.close();
+                }
             );
     });
     //});

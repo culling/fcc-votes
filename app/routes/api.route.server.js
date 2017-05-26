@@ -52,17 +52,46 @@ router.put("/message", function(req, res){
 });
 
 router.post("/polls/new", function(req, res){
+    function listAllProperties(o) {
+        var objectToInspect;     
+        var result = [];
+        
+        for(objectToInspect = o; objectToInspect !== null; objectToInspect = Object.getPrototypeOf(objectToInspect)) {  
+        result = result.concat(Object.getOwnPropertyNames(objectToInspect));  
+        }
+	
+	    return result; 
+    }
+
+    var props =  listAllProperties(req.body);
+    console.log(props);
+    var poll = JSON.parse(props[0] );
+
+
     //console.log(req.body);
-    mongoExport.polls.create(req.body, function(res){
+    mongoExport.polls.create(poll, function(res){
         
     } );
 });
 
 router.post("/polls/update", function(req, res){
-    //console.log(req.body);
-    mongoExport.polls.update(req.body, function(res){
-        //console.log(res);
-    } );
+    function listAllProperties(o) {
+        var objectToInspect;     
+        var result = [];
+        
+        for(objectToInspect = o; objectToInspect !== null; objectToInspect = Object.getPrototypeOf(objectToInspect)) {  
+        result = result.concat(Object.getOwnPropertyNames(objectToInspect));  
+        }
+	
+	    return result; 
+    }
+
+    var props =  listAllProperties(req.body);
+    var poll = JSON.parse(props[0] ).poll;
+    //console.log(poll);
+    mongoExport.polls.update(poll, function(res){
+        console.log(res);
+    });
 });
 
 /*

@@ -109,13 +109,13 @@ class PollsContainerComponent extends React.Component{
         //newPoll.question = 
         //localStorage.setItem("recipes", (JSON.stringify(this.state.recipes) )   );    
         jQuery.ajax({
-            method: 'POST',
+            type: 'POST',  
             url:"/api/polls/new",
-            data: this.state.newPoll,
+            data: JSON.stringify(this.state.newPoll),
             success: function(){
-                window.location= "/drafts/polls";
+                window.location= "/polls";
             },
-            datatype: "string"
+            dataType: 'json',
         });
    
     }

@@ -46,21 +46,22 @@ class TestComponent extends React.Component {
 
 
     postToSocket(newStateDiff) {
-    socket.emit('new state', newStateDiff);
+        socket.emit('new state', newStateDiff);
     }
 
     saveStateToDB() {
-    $.ajax({ url: '/api/message', type: 'PUT', data: this.state });
+        $.ajax({ url: '/api/message', type: 'PUT', data: this.state });
     }
 
 
-  render() {
-    return (
-    <div><h1> React is Go! </h1> 
-        <input type="text" value={this.state.message} onChange={this._handleChangeMessage.bind(this)} />
-    </div>
-    )
-  }
+    render() {
+        return (
+        <div><h1> React is Go! </h1> 
+            <input type="text" value={this.state.message} onChange={this._handleChangeMessage.bind(this)} />
+        </div>
+    )}
+
+
 };
 
 /*
@@ -72,6 +73,7 @@ class TestComponent extends React.Component {
     }
 }
 */
+
 class PollsContainerComponent extends React.Component{
     constructor(){
         super();
@@ -94,6 +96,13 @@ class PollsContainerComponent extends React.Component{
         console.log(this.state.polls);
     }
 
+    _handleChangeMessage() {
+        this.setState({ polls: this.state.polls });
+        console.log(this.state.message);
+    }
+
+
+
     componentWillUpdate(){
         console.log(this.state.polls);        
     }
@@ -102,9 +111,8 @@ class PollsContainerComponent extends React.Component{
         return( 
             <div id="polls-container" className="polls-container">
                 <p>Polls Container</p>
-
-                    { this.state.polls.map( (pollObject, i) => <PollsComponent key={i} poll={pollObject} /> ) }
-
+                    { this.state.polls.map( (pollObject, i) => 
+                    <PollsComponent key={i} poll={pollObject} voteAction={this._handleChangeMessage.bind(this) }/> ) }
             </div>
         );
     }
@@ -132,14 +140,14 @@ class PollsComponent extends React.Component{
 
         console.log(this.props.poll)
         jQuery.ajax({
-            method: 'POST',
+            type: 'POST',  
+            dataType: 'json',
             url:"/api/polls/update",
-            data: poll,
-            datatype: "json"
+            data: JSON.stringify({ poll })
         });
-
-        
     }
+
+
 
     render(){
         return (
@@ -156,7 +164,7 @@ class PollsComponent extends React.Component{
                     {/*<div> {this.props.poll.responseOptions.map( (responseOption, i)=> <li key={i} >{responseOption}</li> )} </div> */}
                     <div> {this.props.poll.responseOptions.map( (responseOption, i)=> <ResponseOptionComponent key={i} 
                     responseOption={responseOption}
-                    onClick = { ()=> this._voteNow({responseOption}, user.username)}
+                    onClick = { ()=> this._voteNow({responseOption}, "user.username")}
                     poll={this.props.poll} /> )} </div>
 
                 </ul>
