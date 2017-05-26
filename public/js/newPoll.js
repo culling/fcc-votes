@@ -38,15 +38,13 @@ class PollsContainerComponent extends React.Component{
             method: 'GET',
             url:"/api/meetings",
             success: (meetings)=>{
-                console.log("Meetings: ")
-                console.log(typeof(meetings) );
-                
-                if (typeof(meetings) == "object" ){
-                    meetings = ["New Meeting"]
+
+                if(meetings[0].length == undefined ){
+                    meetings = ["New Meeting"]                            
                 }
-                
+
                 this.setState({ meetings });
-                //console.log(this.state);
+
             }
         });
     }
@@ -118,6 +116,7 @@ class PollsContainerComponent extends React.Component{
             dataType: 'json',
         });
    
+        window.location= "/polls";
     }
 
     render(){

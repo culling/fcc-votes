@@ -196,7 +196,7 @@ class PollsComponent extends React.Component{
 
             { (this.props.poll.votingOpen == true) && 
                 <div>
-                     <button type="button" className="btn btn-primary" onClick={this._voteNow.bind(this)}> Vote Now </button>
+                     {/* <button type="button" className="btn btn-primary" onClick={this._voteNow.bind(this)}> Vote Now </button> */}
                 </div>
             }
             <br />
