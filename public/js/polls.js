@@ -1,5 +1,6 @@
 $('document').ready(function() {
     console.log("polls.js loaded");
+    
 });
 
 
@@ -10,22 +11,48 @@ class TestComponent extends React.Component {
     }
 
     componentDidMount() {
-    // grab state from the server
-    $.ajax({ url: '/message' })
-        .then(function(data) {
-        this.setState(data);
-        }.bind(this))
-    // listen for state changes on the socket
-    socket.on('new state', function(newState) {
-        this.setState(newState);
-    }.bind(this));
+        // grab state from the server
+        $.ajax({ url: '/api/message' })
+            .then(function(data) {
+            this.setState(data);
+            }.bind(this))
+        // listen for state changes on the socket
+        socket.on('new state', function(newState) {
+            this.setState(newState);
+        }.bind(this));
     }
 
-
+/*
   _handleChangeMessage(e) {
     this.setState({ message: e.target.value });
     console.log(this.state.message);
   }
+*/
+
+  _handleChangeMessage(e) {
+    this.networkSetState({ message: e.target.value });
+    console.log(this.state.message);
+  }
+  
+    networkSetState(newStateDiff) {
+        // do some awesome network things here
+        // 1. put the entire state into the database
+        this.saveStateToDB();
+        // 2. put diffs onto the websocket
+        this.postToSocket(newStateDiff);
+        // 3. set state as per usual
+        this.setState(newStateDiff);
+    }
+
+
+    postToSocket(newStateDiff) {
+    socket.emit('new state', newStateDiff);
+    }
+
+    saveStateToDB() {
+    $.ajax({ url: '/api/message', type: 'PUT', data: this.state });
+    }
+
 
   render() {
     return (

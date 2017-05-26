@@ -30,12 +30,17 @@
         <script src="/lib/react/react-dom.js"></script>
         <!-- script src="lib/react/JSXTransformer.js"></script -->
 
+        <!-- Socket.IO -->
+        <script src="/socket.io/socket.io.js"></script>
+        <script >
+        var socket = io();
+        </script>
         <!-- Custom -->
             <script type="text/javascript"> 
                     var user = "<%- userString %>"
             </script>
 
-
+        
         <script src="/js/main.js"></script>
         <script src="/js/polls.js" type="text/babel" ></script>
         

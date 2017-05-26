@@ -30,9 +30,19 @@ module.exports = function(){
 
         socket.on('new state', function (data) {
             console.log('server - statusChange');
-            socket.broadcast.emit('new state');
+            //socket.broadcast.emit('new state');
+            console.log(data);
+            socket.broadcast.emit("new state", data);
         });
+
+        //Disconnect
+        socket.on('disconnect', function(){
+            console.log('user disconnected');
+        });
+        
+
     });
+
 
     var bodyParser = require("body-parser");
     app.use(bodyParser.urlencoded({extended: false}));

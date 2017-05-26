@@ -38,13 +38,21 @@ router.get("/meetings", function(req, res){
     })
 });
 
+router.get("/message", function(req, res){
+    console.log("called - get");
+    //polls.statusChange() ;
+});
 router.post("/message", function(req, res){
-    polls.statusChange("myio","new state") ;
-} );
-
+    console.log("called - post");
+    //polls.statusChange() ;
+});
+router.put("/message", function(req, res){
+    console.log("called - put");
+    //console.log(req);
+});
 
 router.post("/polls/new", function(req, res){
-    console.log(req.body);
+    //console.log(req.body);
     mongoExport.polls.create(req.body, function(res){
         
     } );

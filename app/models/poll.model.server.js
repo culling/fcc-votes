@@ -18,8 +18,8 @@ function countPolls(callback){
             if(count == null){
                 count= 0;
             }
-            console.log("within countPolls");
-            console.log(count)
+            //console.log("within countPolls");
+            //console.log(count)
             callback(count);
             db.close();
         });
@@ -30,7 +30,7 @@ function countPolls(callback){
 
 exports.create = function(document, res ){
   //console.log(collectionName);
-    console.log(document);
+    //console.log(document);
     var poll    = {};
     countPolls(function(count){
     poll.meeting = document.meeting;
@@ -43,8 +43,8 @@ exports.create = function(document, res ){
     poll.votes  = [];
     poll.votingOpen = true;
 
-    console.log("within Create");
-    console.log(poll);
+    //console.log("within Create");
+    //console.log(poll);
 
     var db = mongo.connect(mongoUrl);
     mongo.connect(mongoUrl, function(err, db){
@@ -76,7 +76,7 @@ exports.retrieve = function(searchText, res){
             if(err){console.error(err)}
         //collection.find({}).toArray(function (err, results){
             if (results.length > 0){
-                console.log(results );
+                //console.log(results );
                 res(results);
             }else{
                 res([{}]);
@@ -98,7 +98,7 @@ exports.retrieveMeetings = function(searchText, res){
             if(err){console.error(err)}
         //collection.find({}).toArray(function (err, results){
             if (results.length > 0){
-                console.log(results );
+                //console.log(results );
                 res(results);
             }else{
                 res([{}]);
