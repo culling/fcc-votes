@@ -94,6 +94,17 @@ router.post("/polls/update", function(req, res){
     });
 });
 
+
+router.get("/user", function(req, res){
+    var user = req.user;
+    if(! user){
+        user = {
+            username: req.ip
+        }
+    }
+    res.send(user);
+})
+
 /*
 router.post("/images/new", function(req, res){
     var body = req.body;

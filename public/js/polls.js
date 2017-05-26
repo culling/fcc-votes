@@ -94,6 +94,16 @@ class PollsContainerComponent extends React.Component{
 
         //this._polls();
         console.log(this.state.polls);
+
+        jQuery.ajax({
+            method: 'GET',
+            url:"/api/user",
+            success: (user)=>{
+                this.setState({ user: user })
+            }
+        });
+        console.log(this.state.user);
+
     }
 
     _handleChangeMessage() {
@@ -110,9 +120,10 @@ class PollsContainerComponent extends React.Component{
     render(){
         return( 
             <div id="polls-container" className="polls-container">
+                <h1> Heading </h1>
                 <p>Polls Container</p>
                     { this.state.polls.map( (pollObject, i) => 
-                    <PollsComponent key={i} poll={pollObject} voteAction={this._handleChangeMessage.bind(this) }/> ) }
+                    <PollsComponent key={i} poll={pollObject} user={this.state.user} voteAction={this._handleChangeMessage.bind(this) }/> ) }
             </div>
         );
     }
@@ -164,7 +175,7 @@ class PollsComponent extends React.Component{
                     {/*<div> {this.props.poll.responseOptions.map( (responseOption, i)=> <li key={i} >{responseOption}</li> )} </div> */}
                     <div> {this.props.poll.responseOptions.map( (responseOption, i)=> <ResponseOptionComponent key={i} 
                     responseOption={responseOption}
-                    onClick = { ()=> this._voteNow({responseOption}, "user.username")}
+                    onClick = { ()=> this._voteNow({responseOption}, this.props.user.username )}
                     poll={this.props.poll} /> )} </div>
 
                 </ul>

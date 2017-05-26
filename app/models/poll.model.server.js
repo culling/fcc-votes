@@ -110,29 +110,13 @@ exports.retrieveMeetings = function(searchText, res){
 
 
 exports.update = function(document, res ){
-  //console.log(collectionName);
-
+    //console.log(collectionName);
     //console.log(document);
     var poll    = document;
     delete poll._id;
-    //console.log(poll._id);
-/*
-    var poll    = {};
-    //countPolls(function(count){
-    poll.meeting = document.meeting;
-    poll.question = document.question;
-    poll.responseOptions = [];
-    //document["responseOptions[]"].map(responseOption => poll.responseOptions.push(responseOption));
-    //console.log(document["responseOptions[]"]);
-    poll.id     = document.id; 
-    poll.date   = document.date;
-    poll.votes  = [];
-    document["votes"].map(vote => poll.votes.push(vote));
-    
-    poll.votingOpen = document.votingOpen;
-*/
-    console.log("within Update");
-    console.log( poll );
+
+    //console.log("within Update");
+    //console.log( poll );
 
     var db = mongo.connect(mongoUrl);
     mongo.connect(mongoUrl, function(err, db){
@@ -141,11 +125,11 @@ exports.update = function(document, res ){
         collection.update({ id: poll.id},
                 poll ,function(err, result){
                     if(err){console.error(err)}
-                    console.log("Result:");
-                    console.log(result );
+                    console.log("updated document");
+                    //console.log(result );
                     db.close();
                 }
             );
     });
-    //});
+
 }
