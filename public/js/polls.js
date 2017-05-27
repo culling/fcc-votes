@@ -217,6 +217,7 @@ class PollsComponent extends React.Component{
 
 class VoteGraph extends React.Component{
     //http://zeroviscosity.com/d3-js-step-by-step/step-1-a-basic-pie-chart
+    //https://bl.ocks.org/santi698/f3685ca8a1a7f5be1967f39f367437c0
     constructor(){
         super();
     }
@@ -226,12 +227,13 @@ class VoteGraph extends React.Component{
     }
 
     _makeGraph(){
-        let h = 400;
         let w = 400;
         let r = 100;
         let barPaddingWidth = 0;
         let yPadding = 30;
         let xPadding = 80;
+        let h = (r *2)+ yPadding;
+
         //console.log(this.props.poll);
 
         let graphId = "#vote-graph-" + this.props.poll.id;
@@ -243,7 +245,7 @@ class VoteGraph extends React.Component{
             .entries(this.props.poll.votes);
         let votesTotals = votesTotalsObject;
 
-        console.log( votesTotals );
+        //console.log( votesTotals );
         var color = d3.scaleOrdinal(d3.schemeCategory20c); 
 
         let svg = d3.select(graphId)
@@ -260,22 +262,30 @@ class VoteGraph extends React.Component{
             .innerRadius(0)
             .outerRadius(r);
 
-        var path = svg.selectAll("path")     //this selects all <g> elements with class slice (there aren't any yet)
+        var labelArc = d3.arc()
+            .innerRadius(r - 40)
+            .outerRadius(r - 40);
+
+        var g = svg.selectAll(".arc")     //this selects all <g> elements with class slice (there aren't any yet)
             .data(pie(votesTotals) )                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties) 
-            .enter()                            //this will create <g> elements for every "extra" data element that should be associated with a selection. The result is creating a <g> for every object in the data array
-            .append("path")
+            .enter()
+            .append("g")
+            .attr("class", "arc");
+            
+        g.append("path")
             .attr("d", arc)                //create a group to hold each slice (we will have a <path> and a <text> element associated with each slice)
             .attr("fill", function(d, i) { return color(i); } ); //set the color for each slice to be chosen from the color function defined above
+            
+        g.append("text")
+            .attr("transform", function(d) {
+                //console.log(d.data.key);
+                return "translate(" + labelArc.centroid(d) + ")"; })
+            .attr("class", "graph-text")
+            .text(function(d) { 
+                console.log(d.data.key);
+                return d.data.key; });
 
-        path.append("text")                                      //add a label to each slice
-                .attr("transform", function(d) {                    //set the label's origin to the center of the arc
-                console.log(d);
-                d.innerRadius = 0;
-                d.outerRadius = r;
-                return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
-            })
-            .attr("text-anchor", "middle")                          //center the text on it's origin
-            .text(function(d, i) { return votesTotals[i].key; });        //get the label from our original data array
+
     }
 
 
