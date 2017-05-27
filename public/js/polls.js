@@ -279,7 +279,7 @@ class VoteGraph extends React.Component{
             .value(function(d) { return d.value; });    //we must tell it out to access the value of each element in our data array
 
         var arc = d3.arc()              //this will create <path> elements for us using arc data
-            .innerRadius(0)
+            .innerRadius( (r/Math.PI) *2 )
             .outerRadius(r);
 
         var labelArc = d3.arc()
@@ -295,7 +295,8 @@ class VoteGraph extends React.Component{
         g.append("path")
             .attr("d", arc)                //create a group to hold each slice (we will have a <path> and a <text> element associated with each slice)
             .attr("fill", function(d, i) { return color(i); } ); //set the color for each slice to be chosen from the color function defined above
-            
+
+       /*     
         g.append("text")
             .attr("transform", function(d) {
                 //console.log(d.data.key);
@@ -304,7 +305,7 @@ class VoteGraph extends React.Component{
             .text(function(d) { 
                 console.log(d.data.key);
                 return d.data.key; });
-
+        */
 
         var legend = svg.selectAll('.legend')
           .data(color.domain())
