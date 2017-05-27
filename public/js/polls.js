@@ -120,7 +120,6 @@ class PollsContainerComponent extends React.Component{
     render(){
         return( 
             <div id="polls-container" className="polls-container">
-                <h1> Heading </h1>
                 <p>Polls Container</p>
                     { this.state.polls.map( (pollObject, i) => 
                     <PollsComponent key={i} poll={pollObject} user={this.state.user} voteAction={this._handleChangeMessage.bind(this) }/> ) }
@@ -184,11 +183,18 @@ class PollsComponent extends React.Component{
              <div>
                  <h4> Votes </h4>
                     {this.props.poll.votes.length > 0 && 
+                    <div>
                     <ul> {this.props.poll.votes.map( (vote ) => 
                         <li key={this.props.poll.id + vote.username + " "+ vote.voteChoice }>
                             {vote.username} : {vote.voteChoice} 
                         </li>) }
-                    </ul>}
+                    </ul>
+
+
+                    <VoteGraph poll={this.props.poll} />
+
+                    </div>
+                    }
                     {this.props.poll.votes.length == 0 && 
                         <b> No votes taken yet </b>
                     }
@@ -209,25 +215,102 @@ class PollsComponent extends React.Component{
 }
 
 
+class VoteGraph extends React.Component{
+    //http://zeroviscosity.com/d3-js-step-by-step/step-1-a-basic-pie-chart
+    constructor(){
+        super();
+    }
+
+    componentDidMount(){
+        this._makeGraph();
+    }
+
+    _makeGraph(){
+        let h = 400;
+        let w = 400;
+        let r = 100;
+        let barPaddingWidth = 0;
+        let yPadding = 30;
+        let xPadding = 80;
+        //console.log(this.props.poll);
+
+        let graphId = "#vote-graph-" + this.props.poll.id;
+        console.log(graphId);
+
+        let votesTotalsObject =  d3.nest()
+            .key(function(d) { return d.voteChoice; })
+            .rollup(function(v) { return v.length; })
+            .entries(this.props.poll.votes);
+        let votesTotals = votesTotalsObject;
+
+        console.log( votesTotals );
+        var color = d3.scaleOrdinal(d3.schemeCategory20c); 
+
+        let svg = d3.select(graphId)
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h)
+            .append("g")                //make a group to hold our pie chart
+            .attr("transform", "translate(" + r + "," + r + ")");
+            
+        var pie = d3.pie()                              //this will create arc data for us given a list of values
+            .value(function(d) { return d.value; });    //we must tell it out to access the value of each element in our data array
+
+        var arc = d3.arc()              //this will create <path> elements for us using arc data
+            .innerRadius(0)
+            .outerRadius(r);
+
+        var path = svg.selectAll("path")     //this selects all <g> elements with class slice (there aren't any yet)
+            .data(pie(votesTotals) )                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties) 
+            .enter()                            //this will create <g> elements for every "extra" data element that should be associated with a selection. The result is creating a <g> for every object in the data array
+            .append("path")
+            .attr("d", arc)                //create a group to hold each slice (we will have a <path> and a <text> element associated with each slice)
+            .attr("fill", function(d, i) { return color(i); } ); //set the color for each slice to be chosen from the color function defined above
+
+        path.append("text")                                      //add a label to each slice
+                .attr("transform", function(d) {                    //set the label's origin to the center of the arc
+                console.log(d);
+                d.innerRadius = 0;
+                d.outerRadius = r;
+                return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
+            })
+            .attr("text-anchor", "middle")                          //center the text on it's origin
+            .text(function(d, i) { return votesTotals[i].key; });        //get the label from our original data array
+    }
+
+
+
+    render(){
+        return(
+            <div id={"vote-graph-" + this.props.poll.id} className="vote-graph">
+                <p>Graph Div</p>
+                {"vote-graph-" + this.props.poll.id}
+            </div>
+        );
+    }
+}
+
 class ResponseOptionComponent extends React.Component{
-render(){
-    return(
-        <div className="responseOption">
+    render(){
+        return(
+            <div className="responseOption">
 
-            { (this.props.poll.votingOpen == true) && 
-                     <button type="button" className="btn btn-primary" onClick={this.props.onClick } > {this.props.responseOption} </button>
-            }
-        </div>
-    )
+                { (this.props.poll.votingOpen == true) && 
+                        <button type="button" className="btn btn-primary" onClick={this.props.onClick } > {this.props.responseOption} </button>
+                }
+            </div>
+        )
+    }
 }
 
-}
+
 
 ReactDOM.render (
     <PollsContainerComponent />, document.getElementById('mount-point')
 )
 
-
+/*
 ReactDOM.render (
     <TestComponent />, document.getElementById('test-point')
 )
+*/
