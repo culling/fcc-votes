@@ -31,11 +31,15 @@
         <link rel="stylesheet"        href="/main.css">
     </head>
     <body>
-        
         <div class="container">
-            <br />
-            <h1>New Poll</h1>
-            <br />
+        <%- include('./partials/header', {title: title}); %>
+        <br />
+
+        <% if (!user) { %>
+            <%- include('./partials/loggedOutBar'); %>
+        <% } else { %>
+            <%- include('./partials/navBar', {user: user}); %>        
+        <% } %>
 
             <div id="test-point"></div>
                 
