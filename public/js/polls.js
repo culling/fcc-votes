@@ -209,42 +209,59 @@ class PollsComponent extends React.Component{
 class VoteGraph extends React.Component{
     //http://zeroviscosity.com/d3-js-step-by-step/step-1-a-basic-pie-chart
     //https://bl.ocks.org/santi698/f3685ca8a1a7f5be1967f39f367437c0
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
+
     }
 
     componentDidMount(){
-
-        var votesTotals =  d3.nest()
-            .key(function(d) { return d.voteChoice; })
-            .rollup(function(v) { return v.length; })
-            .entries(this.props.poll.votes);
-        this._makeGraph(votesTotals);
-    }
-
-    componentWillUpdate(){
-
-        var votesTotals =  d3.nest()
-            .key(function(d) { return d.voteChoice; })
-            .rollup(function(v) { return v.length; })
-            .entries(this.props.poll.votes);
-        this._makeGraph(votesTotals);
-        console.log(votesTotals);
-
-    }
-
-    _makeGraph(votesTotals){
         let w = 400;
         let r = 100;
         let barPaddingWidth = 0;
         let yPadding = 30;
         let xPadding = 80;
         let h = (r *2)+ yPadding;
+
+        let graphId = "#vote-graph-" + this.props.poll.id;
+        
+        var svg = d3.select(graphId)
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h)
+            .append("g")                //make a group to hold our pie chart
+            .attr("transform", "translate(" + r + "," + r + ")");
+
+        this.svg = svg;
+        //console.log(svg);
+        this._makeGraph(svg);
+        
+    }
+
+    componentWillUpdate(){
+        this.svg.selectAll(".arc").remove();
+        this.svg.selectAll('.legend').remove();
+        this._makeGraph(this.svg);
+
+    }
+
+    _makeGraph(svg){
+        var votesTotals =  d3.nest()
+            .key(function(d) { return d.voteChoice; })
+            .rollup(function(v) { return v.length; })
+            .entries(this.props.poll.votes);
+        
+
+        let w = 400;
+        let r = 100;
+        let barPaddingWidth = 0;
+        let yPadding = 30;
+        let xPadding = 80;
+        let h = (r *2)+ yPadding;
+
         var legendRectSize  = 18;
         var legendSpacing   = 4;   
         //console.log(this.props.poll);
 
-        let graphId = "#vote-graph-" + this.props.poll.id;
 //        console.log(graphId);
 /*
         var votesTotals =  d3.nest()
@@ -256,14 +273,8 @@ class VoteGraph extends React.Component{
         //console.log( votesTotals );
         var color = d3.scaleOrdinal(d3.schemeCategory20c); 
 
-        
-        let svg = d3.select(graphId)
-            .append("svg")
-            .attr("width", w)
-            .attr("height", h)
-            .append("g")                //make a group to hold our pie chart
-            .attr("transform", "translate(" + r + "," + r + ")");
-            
+    
+
         var pie = d3.pie()                              //this will create arc data for us given a list of values
             .value(function(d) { return d.value; });    //we must tell it out to access the value of each element in our data array
 
@@ -327,6 +338,7 @@ class VoteGraph extends React.Component{
 
 
     render(){
+
         return(
             <div id={"vote-graph-" + this.props.poll.id} className="vote-graph">
                 <p>Graph Div</p>
