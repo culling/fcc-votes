@@ -130,15 +130,6 @@ class PollsContainerComponent extends React.Component{
 
 class PollsComponent extends React.Component{
     _voteNow (responseOption, username){
-        console.log("Vote now Clicked");
-        console.log("Response Option: ");
-        console.log( responseOption.responseOption);
-        console.log("Username: " )
-        console.log(username);
-
-        console.log("Poll: " )
-        console.log(this.props.poll);
-
         var poll = Object.assign(this.props.poll); 
         
         poll.votes = poll.votes.filter(function(vote){
@@ -172,10 +163,12 @@ class PollsComponent extends React.Component{
                 <h4> Response Options</h4>
                 <ul>
                     {/*<div> {this.props.poll.responseOptions.map( (responseOption, i)=> <li key={i} >{responseOption}</li> )} </div> */}
-                    <div> {this.props.poll.responseOptions.map( (responseOption, i)=> <ResponseOptionComponent key={i} 
-                    responseOption={responseOption}
-                    onClick = { ()=> this._voteNow({responseOption}, this.props.user.username )}
-                    poll={this.props.poll} /> )} </div>
+                    <div> {this.props.poll.responseOptions.map( (responseOption, i)=> 
+                        <ResponseOptionComponent key={i} 
+                        responseOption={responseOption}
+                        onClick = { ()=> this._voteNow({responseOption}, this.props.user.username )}
+                        poll={this.props.poll} /> )} 
+                    </div>
 
                 </ul>
              </div>
@@ -184,14 +177,12 @@ class PollsComponent extends React.Component{
                  <h4> Votes </h4>
                     {this.props.poll.votes.length > 0 && 
                     <div>
-                    <ul> {this.props.poll.votes.map( (vote ) => 
-                        <li key={this.props.poll.id + vote.username + " "+ vote.voteChoice }>
-                            {vote.username} : {vote.voteChoice} 
-                        </li>) }
-                    </ul>
-
-
-                    <VoteGraph poll={this.props.poll} />
+                        <ul> {this.props.poll.votes.map( (vote ) => 
+                            <li key={this.props.poll.id + vote.username + " "+ vote.voteChoice }>
+                                {vote.username} : {vote.voteChoice} 
+                            </li>) }
+                        </ul>
+                        <VoteGraph poll={this.props.poll}  />
 
                     </div>
                     }
@@ -223,10 +214,26 @@ class VoteGraph extends React.Component{
     }
 
     componentDidMount(){
-        this._makeGraph();
+
+        var votesTotals =  d3.nest()
+            .key(function(d) { return d.voteChoice; })
+            .rollup(function(v) { return v.length; })
+            .entries(this.props.poll.votes);
+        this._makeGraph(votesTotals);
     }
 
-    _makeGraph(){
+    componentWillUpdate(){
+
+        var votesTotals =  d3.nest()
+            .key(function(d) { return d.voteChoice; })
+            .rollup(function(v) { return v.length; })
+            .entries(this.props.poll.votes);
+        this._makeGraph(votesTotals);
+        console.log(votesTotals);
+
+    }
+
+    _makeGraph(votesTotals){
         let w = 400;
         let r = 100;
         let barPaddingWidth = 0;
@@ -238,17 +245,18 @@ class VoteGraph extends React.Component{
         //console.log(this.props.poll);
 
         let graphId = "#vote-graph-" + this.props.poll.id;
-        console.log(graphId);
-
-        let votesTotalsObject =  d3.nest()
+//        console.log(graphId);
+/*
+        var votesTotals =  d3.nest()
             .key(function(d) { return d.voteChoice; })
             .rollup(function(v) { return v.length; })
             .entries(this.props.poll.votes);
-        let votesTotals = votesTotalsObject;
-
+        //let votesTotals = votesTotalsObject;
+*/
         //console.log( votesTotals );
         var color = d3.scaleOrdinal(d3.schemeCategory20c); 
 
+        
         let svg = d3.select(graphId)
             .append("svg")
             .attr("width", w)
