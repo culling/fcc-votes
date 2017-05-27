@@ -64,10 +64,12 @@ router.post("/polls/new", function(req, res){
     }
 
     var props =  listAllProperties(req.body);
-    console.log(props);
+    //console.log(props);
+    
     var poll = JSON.parse(props[0] );
 
-
+    console.log(req.user);
+    poll.createdByUser = req.user.username;
     //console.log(req.body);
     mongoExport.polls.create(poll, function(res){
         

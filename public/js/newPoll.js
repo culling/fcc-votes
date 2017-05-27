@@ -111,12 +111,12 @@ class PollsContainerComponent extends React.Component{
             url:"/api/polls/new",
             data: JSON.stringify(this.state.newPoll),
             success: function(){
-                window.location= "/polls";
+                window.location= "/";
             },
             dataType: 'json',
         });
    
-        window.location= "/polls";
+        window.location= "/";
     }
 
     render(){
