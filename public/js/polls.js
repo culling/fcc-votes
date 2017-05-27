@@ -233,7 +233,8 @@ class VoteGraph extends React.Component{
         let yPadding = 30;
         let xPadding = 80;
         let h = (r *2)+ yPadding;
-
+        var legendRectSize  = 18;
+        var legendSpacing   = 4;   
         //console.log(this.props.poll);
 
         let graphId = "#vote-graph-" + this.props.poll.id;
@@ -284,6 +285,33 @@ class VoteGraph extends React.Component{
             .text(function(d) { 
                 console.log(d.data.key);
                 return d.data.key; });
+
+
+        var legend = svg.selectAll('.legend')
+          .data(color.domain())
+          .enter()
+          .append('g')
+          .attr('class', 'legend')
+          .attr('transform', function(d, i) {
+            var height = legendRectSize + legendSpacing;
+            var offset =  height * color.domain().length / 2;
+            var horz = w * (1/3);
+            var vert = i * height - offset;
+            return 'translate(' + horz + ',' + vert + ')';
+          });
+        legend.append('rect')
+          .attr('width', legendRectSize)
+          .attr('height', legendRectSize)
+          .style('fill', color)
+          .style('stroke', color);
+        legend.append('text')
+          .attr('x', legendRectSize + legendSpacing)
+          .attr('y', legendRectSize - legendSpacing)
+          .text(function(d) { 
+              //console.log( votesTotals[d].key )
+              return votesTotals[d].key }); 
+
+
 
 
     }
