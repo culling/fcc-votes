@@ -39,11 +39,6 @@
         var socket = io();
         </script>
         <!-- Custom -->
-            <!-- script type="text/javascript"> 
-                    var user = "<%- userString %>"
-            </script -->
-
-
         <script src="/js/main.js"></script>
         <script src="/js/polls-user.js" type="text/babel" ></script>
         
@@ -52,7 +47,7 @@
     <body>
         
         <div class="container">
-        <%- include('../partials/header', {title: title}); %>
+        <%- include('./../partials/header', {title: title}); %>
         <br />
 
         <% if (!user) { %>

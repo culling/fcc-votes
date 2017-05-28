@@ -47,13 +47,13 @@
     <body>
         
         <div class="container">
-        <%- include('./partials/header', {title: title}); %>
+        <%- include('./../partials/header', {title: title}); %>
         <br />
 
         <% if (!user) { %>
-            <%- include('./partials/loggedOutBar'); %>
+            <%- include('./../partials/loggedOutBar'); %>
         <% } else { %>
-            <%- include('./partials/navBar', {user: user}); %>        
+            <%- include('./../partials/navBar', {user: user}); %>        
         <% } %>
 
 

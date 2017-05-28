@@ -22,7 +22,7 @@ router.get("/new", function(req, res){
 
 router.get("/user", function(req, res){
     //let username = req.user.username;
-    res.render('polls/user', {title: config.pageTitle,  "user": req.user })
+    res.render('polls/polls-user', {title: config.pageTitle,  "user": req.user })
 
 });
 
