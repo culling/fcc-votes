@@ -30,17 +30,28 @@ router.get("/polls", function(req, res){
 
     mongoExport.polls.retrieve(null, function(foundDocs){
 
-        /*if(req.user){
+        res.send(foundDocs);
+    })
+});
+
+router.get("/polls/:id", function(req, res){
+
+
+    mongoExport.polls.retrieve(null, function(foundDocs){
+
+        if(req.param.id){
             var foundDocs = foundDocs.filter((foundDoc) => {
                 //console.log(foundDoc);
-                return foundDoc.createdByUser == req.user.username;
+                return foundDoc.id == req.params.id ;
             });
             //console.log(filtered);
-        }*/
+        }
 
         res.send(foundDocs);
     })
 });
+
+
 
 router.get("/polls/user", function(req, res){
     //var username = req.user.username ;
@@ -58,6 +69,7 @@ router.get("/polls/user", function(req, res){
         res.send(foundDocs);
     })
 });
+
 
 
 
