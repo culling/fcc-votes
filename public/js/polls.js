@@ -170,6 +170,14 @@ class PollsComponent extends React.Component{
                         poll={this.props.poll} /> )} 
                     </div>
 
+                        <label className="col-sm-2">New Response Option</label>
+                        <div className="col-sm-10">                        
+                            <input type="text" name="newResponseOption" className="form-control" defaultValue={""}
+                             
+                            ></input>
+                        </div>
+
+
                 </ul>
              </div>
 
