@@ -19,18 +19,47 @@ var polls       = require("./../controllers/polls.controller.server");
 
 
 router.get("/", function(req, res){
-    //res.write("API Query");
-    //res.write("Guide to API");
-    //res.write('<a href=/')
-    //res.end();
     res.sendFile(("apiguide.html"), {root: "public"});
 });
 
+
+
+
 router.get("/polls", function(req, res){
+    //var username = req.user.username ;
+
     mongoExport.polls.retrieve(null, function(foundDocs){
+
+        /*if(req.user){
+            var foundDocs = foundDocs.filter((foundDoc) => {
+                //console.log(foundDoc);
+                return foundDoc.createdByUser == req.user.username;
+            });
+            //console.log(filtered);
+        }*/
+
         res.send(foundDocs);
     })
 });
+
+router.get("/polls/user", function(req, res){
+    //var username = req.user.username ;
+
+    mongoExport.polls.retrieve(null, function(foundDocs){
+
+        if(req.user){
+            var foundDocs = foundDocs.filter((foundDoc) => {
+                //console.log(foundDoc);
+                return foundDoc.createdByUser == req.user.username;
+            });
+            //console.log(filtered);
+        }
+
+        res.send(foundDocs);
+    })
+});
+
+
 
 router.get("/meetings", function(req, res){
     mongoExport.polls.retrieveMeetings(null, function(foundDocs){
