@@ -94,7 +94,7 @@ class PollsContainerComponent extends React.Component{
     _newMeeting(){
         let newPoll     = Object.assign( this.state.newPoll);
         newPoll.meeting = this.newMeeting.value;
-        console.log("new Meeting Name: " + newPoll.meeting);
+        //console.log("new Meeting Name: " + newPoll.meeting);
         this.setState({newPoll:newPoll});
     }
 

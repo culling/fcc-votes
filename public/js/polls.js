@@ -122,7 +122,12 @@ class PollsContainerComponent extends React.Component{
             <div id="polls-container" className="polls-container">
                 <p>Polls Container</p>
                     { this.state.polls.map( (pollObject, i) => 
-                    <PollsComponent key={i} poll={pollObject} user={this.state.user} voteAction={this._handleChangeMessage.bind(this) }/> ) }
+                    <PollsComponent key={i} 
+                        poll={pollObject} 
+                        user={this.state.user} 
+                        /*voteAction={this._handleChangeMessage.bind(this)}*/
+
+                         /> ) }
             </div>
         );
     }
@@ -147,6 +152,26 @@ class PollsComponent extends React.Component{
             data: JSON.stringify({ poll })
         });
     }
+
+    _newResponseOption(){
+        let poll     = Object.assign( this.props.poll);
+        poll.responseOptions.push(this.newResponseOption.value);
+        console.log("new Response Option: " + this.newResponseOption.value);
+        console.log(poll);
+
+        jQuery.ajax({
+            type: 'POST',  
+            dataType: 'json',
+            url:"/api/polls/update",
+            data: JSON.stringify({ poll }),
+            success:(
+                    this.newResponseOption.value = ""
+            )
+        });
+
+        this.forceUpdate();
+    }
+
 
 
 
@@ -173,8 +198,10 @@ class PollsComponent extends React.Component{
                         <label className="col-sm-2">New Response Option</label>
                         <div className="col-sm-10">                        
                             <input type="text" name="newResponseOption" className="form-control" defaultValue={""}
-                             
+                             ref={(input)=> this.newResponseOption = input} 
                             ></input>
+                            <button className="btn btn-secondary" onClick={this._newResponseOption.bind(this)}>Save</button>
+
                         </div>
 
 
