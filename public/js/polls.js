@@ -177,63 +177,71 @@ class PollsComponent extends React.Component{
 
     render(){
         return (
-        <div className="poll" > 
-            <h3> {this.props.poll.question} </h3>
-            <div>Question ID: {this.props.poll.id} </div>
-            <div>Meeting: {this.props.poll.meeting} </div>
-            <div>Poll Created On: {this.props.poll.date} </div>
- 
-
-            <div>
-                <h4> Response Options</h4>
-                <ul>
-                    {/*<div> {this.props.poll.responseOptions.map( (responseOption, i)=> <li key={i} >{responseOption}</li> )} </div> */}
-                    <div> {this.props.poll.responseOptions.map( (responseOption, i)=> 
-                        <ResponseOptionComponent key={i} 
-                        responseOption={responseOption}
-                        onClick = { ()=> this._voteNow({responseOption}, this.props.user.username )}
-                        poll={this.props.poll} /> )} 
-                    </div>
-
-                        <label className="col-sm-2">New Response Option</label>
-                        <div className="col-sm-10">                        
-                            <input type="text" name="newResponseOption" className="form-control" defaultValue={""}
-                             ref={(input)=> this.newResponseOption = input} 
-                            ></input>
-                            <button className="btn btn-secondary" onClick={this._newResponseOption.bind(this)}>Save</button>
-
+        <div className="poll" >
+            <div className="row">
+                <div className="col-md-12">  
+                    <h3> {this.props.poll.question} </h3>
+                    <div>Question ID: {this.props.poll.id} </div>
+                    <div>Meeting: {this.props.poll.meeting} </div>
+                    <div>Poll Created On: {this.props.poll.date} </div>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-md-4">
+                    <h4> Response Options</h4>
+                    <ul>
+                        {/*<div> {this.props.poll.responseOptions.map( (responseOption, i)=> <li key={i} >{responseOption}</li> )} </div> */}
+                        <div> {this.props.poll.responseOptions.map( (responseOption, i)=> 
+                            <ResponseOptionComponent key={i} 
+                            responseOption={responseOption}
+                            onClick = { ()=> this._voteNow({responseOption}, this.props.user.username )}
+                            poll={this.props.poll} /> )} 
                         </div>
 
+                            <label className="col-sm-2">New Response Option</label>
+                            <div className="col-sm-10">                        
+                                <input type="text" name="newResponseOption" className="form-control" defaultValue={""}
+                                ref={(input)=> this.newResponseOption = input} 
+                                ></input>
+                                <button className="btn btn-secondary" onClick={this._newResponseOption.bind(this)}>Save</button>
 
-                </ul>
-             </div>
+                            </div>
 
-             <div>
-                 <h4> Votes </h4>
-                    {this.props.poll.votes.length > 0 && 
-                    <div>
-                        <ul> {this.props.poll.votes.map( (vote ) => 
-                            <li key={this.props.poll.id + vote.username + " "+ vote.voteChoice }>
-                                {vote.username} : {vote.voteChoice} 
-                            </li>) }
-                        </ul>
-                        <VoteGraph poll={this.props.poll}  />
 
-                    </div>
-                    }
-                    {this.props.poll.votes.length == 0 && 
-                        <b> No votes taken yet </b>
-                    }
-             </div>
-
-            { (this.props.poll.votingOpen == true) && 
-                <div>
-                     {/* <button type="button" className="btn btn-primary" onClick={this._voteNow.bind(this)}> Vote Now </button> */}
+                    </ul>
                 </div>
-            }
-            <br />
-        </div>
 
+
+                {this.props.poll.votes.length > 0 && 
+                <div className="col-md-4">
+                        <h4> Votes </h4>
+
+                    <ul> {this.props.poll.votes.map( (vote ) => 
+                        <li key={this.props.poll.id + vote.username + " "+ vote.voteChoice }>
+                            {vote.username} : {vote.voteChoice} 
+                        </li>) }
+                    </ul>
+
+                </div>
+                }
+                {this.props.poll.votes.length > 0 && 
+                <div className="col-md-4">
+                    <h4> Graph </h4>
+                    <VoteGraph poll={this.props.poll}  />
+                </div>
+                }
+                {this.props.poll.votes.length == 0 && 
+                    <b> No votes taken yet </b>
+                }
+
+                { (this.props.poll.votingOpen == true) && 
+                    <div>
+                        {/* <button type="button" className="btn btn-primary" onClick={this._voteNow.bind(this)}> Vote Now </button> */}
+                    </div>
+                }
+                <br />
+            </div>
+        </div>
         )
     }
 
