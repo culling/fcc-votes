@@ -1,5 +1,5 @@
 $('document').ready(function() {
-    console.log("polls.js loaded");
+    console.log("polls-user.js loaded");
     
 });
 
@@ -73,6 +73,7 @@ class PollsContainerComponent extends React.Component{
             method: 'GET',
             url:"/api/polls/user",
             success: (polls)=>{
+                console.log(polls);
                 this.setState({ polls: polls })
             }
         });

@@ -25,6 +25,35 @@ router.get("/", function(req, res){
 
 
 
+
+
+//Meetings
+router.get("/meetings", function(req, res){
+    mongoExport.polls.retrieveMeetings(null, function(foundDocs){
+        res.send(foundDocs);
+    })
+});
+
+
+
+//Messages
+router.get("/message", function(req, res){
+    console.log("called - get");
+    //polls.statusChange() ;
+});
+router.post("/message", function(req, res){
+    console.log("called - post");
+    //polls.statusChange() ;
+});
+router.put("/message", function(req, res){
+    console.log("called - put");
+
+});
+
+
+
+// Polls
+
 router.get("/polls", function(req, res){
     //var username = req.user.username ;
 
@@ -34,29 +63,10 @@ router.get("/polls", function(req, res){
     })
 });
 
-router.get("/polls/:id", function(req, res){
-
-    console.log(req.params.id);
-
-    mongoExport.polls.retrieve(null, function(foundDocs){
-
-        if(req.params.id){
-            var foundDocs = foundDocs.filter((foundDoc) => {
-                //console.log(foundDoc);
-                return foundDoc.id == req.params.id ;
-            });
-            //console.log(filtered);
-        }
-
-        res.send(foundDocs);
-    })
-});
-
 
 
 router.get("/polls/user", function(req, res){
     //var username = req.user.username ;
-
     mongoExport.polls.retrieve(null, function(foundDocs){
 
         if(req.user){
@@ -69,28 +79,6 @@ router.get("/polls/user", function(req, res){
 
         res.send(foundDocs);
     })
-});
-
-
-
-
-router.get("/meetings", function(req, res){
-    mongoExport.polls.retrieveMeetings(null, function(foundDocs){
-        res.send(foundDocs);
-    })
-});
-
-router.get("/message", function(req, res){
-    console.log("called - get");
-    //polls.statusChange() ;
-});
-router.post("/message", function(req, res){
-    console.log("called - post");
-    //polls.statusChange() ;
-});
-router.put("/message", function(req, res){
-    console.log("called - put");
-    //console.log(req);
 });
 
 router.post("/polls/new", function(req, res){
@@ -139,6 +127,29 @@ router.post("/polls/update", function(req, res){
 });
 
 
+
+router.get("/polls/:id", function(req, res){
+
+    console.log(req.params.id);
+
+    mongoExport.polls.retrieve(null, function(foundDocs){
+        
+        if(req.params.id){
+            var foundDocs = foundDocs.filter((foundDoc) => {
+                //console.log(foundDoc);
+                return foundDoc.id == req.params.id ;
+            });
+            //console.log(filtered);
+        }
+
+        res.send(foundDocs);
+    })
+});
+
+
+
+
+//User
 router.get("/user", function(req, res){
     var user = req.user;
     if(! user){
@@ -149,67 +160,8 @@ router.get("/user", function(req, res){
     res.send(user);
 })
 
-/*
-router.post("/images/new", function(req, res){
-    var body = req.body;
-    var newDoc = {
-        "url":      body.url,
-        "alt-text": body["alt-text"],
-        "original-page": body["original-page"],
-        "submitted": new Date()
-    }
-    mongoExport.image.create(newDoc, function(err, returnedDocument){
-        if(err){console.error(err)}
-        console.log(returnedDocument);
-    });
-    res.end("submitted");
-});
-
-//Allowing for the query to be modified as a get request
-router.get("/images/search/new", function(req, res){
-    var reqQuery    = querystring.parse(url.parse(req.url).query);
-    var searchText  = reqQuery["search-text"];
-    var offset      = reqQuery["offset"] || 0;
-    console.log("offset: " + offset);
-    
-    var newDoc = {
-        "search-text": searchText,
-        "submitted": new Date()
-    }
-    mongoExport.search.create(newDoc, function(err, returnedDocument){
-        if(err){console.error(err)}
-        console.log(returnedDocument);
-    });
-
-    mongoExport.image.retrieve( searchText , offset, function(foundDocs ){
-        foundDocs.forEach(function(foundDoc){
-            //console.log(foundDoc);
-            res.write(JSON.stringify(foundDoc) + "\n");
-        });
-        //res.write( JSON.stringify(req.body));
-        res.end();
-    }); 
-    
-});
-
-router.get("/images/search", function(req, res){
-    var reqQuery    = querystring.parse(url.parse(req.url).query);
-    //var searchText  = reqQuery["search-text"];
-    var offset      = reqQuery["offset"] || 0;
-    //console.log("offset: " + offset);
 
 
-    
-    mongoExport.search.retrieve( offset, function(foundDocs ){
-        foundDocs.forEach(function(foundDoc){
-            //console.log(foundDoc);
-            res.write(JSON.stringify(foundDoc) + "\n");
-        });
-        //res.write( JSON.stringify(req.body));
-        res.end();
-    }); 
-    
-});
-*/
+
 
 module.exports = router;

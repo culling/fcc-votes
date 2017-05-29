@@ -19,20 +19,27 @@ router.get("/", function(req, res){
 router.get("/new",
     require('connect-ensure-login').ensureLoggedIn(),
     function(req, res){
+        console.log(req)
     res.render('polls/polls-new', {title: config.pageTitle,  "user": req.user })
 });
 
 router.get("/user", function(req, res){
     //let username = req.user.username;
+    console.log("Hit the /user poll");
+    console.log(req.user)
     res.render('polls/polls-user', {title: config.pageTitle,  "user": req.user })
 
 });
 
 
+
+
+
+
+
+
 router.get("/:id", function(req, res){
-    console.log(req.params.id);
     res.render('polls/polls-findOne', {title: config.pageTitle,  "user": req.user, "pollId": req.params.id })
 });
-
 
 module.exports = router

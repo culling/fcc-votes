@@ -15,27 +15,27 @@ var users       = require("./../controllers/user.controller.server");
 
 
 router.get("/", function(req, res){
-    res.render("index", {"title": config.pageTitle, "user": req.user } );
+    res.render("polls/polls", {"title": config.pageTitle, "user": req.user } );
 });
 
 
-   router.route("/login")
-        .get(
-          function(req, res, next){
-            if(!req.user){
-                res.render('login', {
-                    title:      "Log In",
-                    messages:   req.flash('error') || req.flash('info')
-                });
-            }else{
-                return res.redirect('/');
-            }
-        })
-        .post(passport.authenticate('local', {
-            successRedirect:    '/',
-            failureRedirect:    '/login',
-            failureFlash:       true
-        } ));
+router.route("/login")
+    .get(
+      function(req, res, next){
+        if(!req.user){
+            res.render('login', {
+                title:      "Log In",
+                messages:   req.flash('error') || req.flash('info')
+            });
+        }else{
+            return res.redirect('/');
+        }
+    })
+    .post(passport.authenticate('local', {
+        successRedirect:    '/',
+        failureRedirect:    '/login',
+        failureFlash:       true
+    } ));
 
 router.get('/logout',
   function(req, res){
