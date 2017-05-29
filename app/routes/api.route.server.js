@@ -36,10 +36,11 @@ router.get("/polls", function(req, res){
 
 router.get("/polls/:id", function(req, res){
 
+    console.log(req.params.id);
 
     mongoExport.polls.retrieve(null, function(foundDocs){
 
-        if(req.param.id){
+        if(req.params.id){
             var foundDocs = foundDocs.filter((foundDoc) => {
                 //console.log(foundDoc);
                 return foundDoc.id == req.params.id ;

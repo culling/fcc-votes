@@ -67,19 +67,22 @@ class PollsContainerComponent extends React.Component{
         }
     }
 
-    componentWillMount(){
-        console.log(window.location)
-        console.log(this.state.polls)
+    componentDidMount(){
+        //console.log(window.location)
+        //console.log(this.state.polls)
+        console.log("/api"+ window.location.pathname);
+
         jQuery.ajax({
             method: 'GET',
-            url:"/api"+ window.location.pathname,
+            url:("/api"+ window.location.pathname),
             success: (polls)=>{
+                console.log(polls);
                 this.setState({ polls: polls })
             }
         });
 
         //this._polls();
-        console.log(this.state.polls);
+        //console.log(this.state.polls);
 
         jQuery.ajax({
             method: 'GET',
@@ -100,7 +103,7 @@ class PollsContainerComponent extends React.Component{
 
 
     componentWillUpdate(){
-        console.log(this.state.polls);        
+        //console.log(this.state.polls);
     }
 
     render(){
@@ -363,8 +366,8 @@ class VoteGraph extends React.Component{
 
         return(
             <div id={"vote-graph-" + this.props.poll.id} className="vote-graph">
-                <p>Graph Div</p>
-                {"vote-graph-" + this.props.poll.id}
+
+
             </div>
         );
     }

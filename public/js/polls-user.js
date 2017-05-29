@@ -22,12 +22,7 @@ class TestComponent extends React.Component {
         }.bind(this));
     }
 
-/*
-  _handleChangeMessage(e) {
-    this.setState({ message: e.target.value });
-    console.log(this.state.message);
-  }
-*/
+
 
   _handleChangeMessage(e) {
     this.networkSetState({ message: e.target.value });
@@ -63,16 +58,6 @@ class TestComponent extends React.Component {
 
 
 };
-
-/*
-class TestComponent extends React.Component {
-    render(){
-        return (
-        <div><h1> React is Go! </h1> </div>
-        );
-    }
-}
-*/
 
 class PollsContainerComponent extends React.Component{
     constructor(){
@@ -377,8 +362,7 @@ class VoteGraph extends React.Component{
 
         return(
             <div id={"vote-graph-" + this.props.poll.id} className="vote-graph">
-                <p>Graph Div</p>
-                {"vote-graph-" + this.props.poll.id}
+
             </div>
         );
     }

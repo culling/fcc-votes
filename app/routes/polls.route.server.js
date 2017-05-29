@@ -16,12 +16,10 @@ router.get("/", function(req, res){
     res.render('polls/polls', {title: config.pageTitle,  "user": req.user })
 });
 
-router.get("/polls/:id", function(req, res){
-    res.render('polls/findOne', {title: config.pageTitle,  "user": req.user, "pollId": req.params.id })
-});
-
-router.get("/new", function(req, res){
-    res.render('polls/newPoll', {title: config.pageTitle,  "user": req.user })
+router.get("/new",
+    require('connect-ensure-login').ensureLoggedIn(),
+    function(req, res){
+    res.render('polls/polls-new', {title: config.pageTitle,  "user": req.user })
 });
 
 router.get("/user", function(req, res){
@@ -29,5 +27,12 @@ router.get("/user", function(req, res){
     res.render('polls/polls-user', {title: config.pageTitle,  "user": req.user })
 
 });
+
+
+router.get("/:id", function(req, res){
+    console.log(req.params.id);
+    res.render('polls/polls-findOne', {title: config.pageTitle,  "user": req.user, "pollId": req.params.id })
+});
+
 
 module.exports = router

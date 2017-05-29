@@ -377,8 +377,7 @@ class VoteGraph extends React.Component{
 
         return(
             <div id={"vote-graph-" + this.props.poll.id} className="vote-graph">
-                <p>Graph Div</p>
-                {"vote-graph-" + this.props.poll.id}
+
             </div>
         );
     }
