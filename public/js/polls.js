@@ -3,7 +3,7 @@ $('document').ready(function() {
     
 });
 
-
+/*
 class TestComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -58,7 +58,7 @@ class TestComponent extends React.Component {
 
 
 };
-
+*/
 
 class PollsContainerComponent extends React.Component{
     constructor(){
@@ -106,7 +106,7 @@ class PollsContainerComponent extends React.Component{
     render(){
         return( 
             <div id="polls-container" className="polls-container">
-                <p>Polls Container</p>
+                <h1> Open Polls </h1>
                     { this.state.polls.map( (pollObject, i) => 
                     <PollsComponent key={i} 
                         poll={pollObject} 
@@ -114,12 +114,18 @@ class PollsContainerComponent extends React.Component{
                         /*voteAction={this._handleChangeMessage.bind(this)}*/
 
                          /> ) }
+
             </div>
         );
     }
 }
 
 class PollsComponent extends React.Component{
+    constructor(){
+        super();
+        this.state = {detailsState: "details-div-hidden"};
+    }
+
     _voteNow (responseOption, username){
         var poll = Object.assign(this.props.poll); 
         
@@ -130,7 +136,6 @@ class PollsComponent extends React.Component{
         poll.votes.push({username:username, voteChoice: responseOption.responseOption});
         this.setState({poll: poll});
 
-        console.log(this.props.poll)
         jQuery.ajax({
             type: 'POST',  
             dataType: 'json',
@@ -142,8 +147,6 @@ class PollsComponent extends React.Component{
     _newResponseOption(){
         let poll     = Object.assign( this.props.poll);
         poll.responseOptions.push(this.newResponseOption.value);
-        console.log("new Response Option: " + this.newResponseOption.value);
-        console.log(poll);
 
         jQuery.ajax({
             type: 'POST',  
@@ -159,6 +162,12 @@ class PollsComponent extends React.Component{
     }
 
 
+    _showDetailsPane(){
+        let detailsState = ((this.state.detailsState === "details-div-visible" )? "details-div-hidden": "details-div-visible");
+        this.setState({detailsState: detailsState });
+        //this.forceUpdate();
+
+    }
 
 
     render(){
@@ -166,25 +175,41 @@ class PollsComponent extends React.Component{
         <div className="poll" >
             <div className="row">
                 <div className="col-md-12">  
-                    <h3> {this.props.poll.question} </h3>
-                    <div>Question ID: {this.props.poll.id} </div>
-                    <div>Meeting: {this.props.poll.meeting} </div>
-                    <div>Poll Created On: {this.props.poll.date} </div>
+                    {/*Header Button*/}
+                    <button className="vote-question btn btn-block" onClick={this._showDetailsPane.bind(this)}> 
+                        {this.props.poll.meeting != "No Meeting" &&
+                         this.props.poll.meeting +" - "+ this.props.poll.question} 
+
+                        {this.props.poll.meeting == "No Meeting" &&
+                        this.props.poll.question} 
+                    </button>
+
+                    {/*Details Pane*/}
+                    <div className={this.state.detailsState}>
+                        <div>Question ID: {this.props.poll.id} </div>
+                        <div>Meeting: {this.props.poll.meeting} </div>
+                        <div>Poll Created On: {this.props.poll.date} </div>
+                        <div>Poll Created By: {this.props.poll.createdByUser} </div>
+                    </div>
                 </div>
             </div>
-            <div className="row">
 
-                {/* Vote */}
+
+
+            {/*Interactive section*/}
+            <div className={"row "+ this.state.detailsState}>
+
+                {/* Vote Options */}
                 <div className="col-md-4">
                     <h4> Response Options</h4>
                     <ul>
-                        {/*<div> {this.props.poll.responseOptions.map( (responseOption, i)=> <li key={i} >{responseOption}</li> )} </div> */}
                         <div> {this.props.poll.responseOptions.map( (responseOption, i)=> 
                             <ResponseOptionComponent key={i} 
                             responseOption={responseOption}
                             onClick = { ()=> this._voteNow({responseOption}, this.props.user.username )}
                             poll={this.props.poll} /> )} 
                         </div>
+
 
                         {this.props.user._id &&
                         <div>
@@ -198,6 +223,7 @@ class PollsComponent extends React.Component{
                         </div>
                         }
 
+
                     </ul>
                 </div>
 
@@ -206,8 +232,6 @@ class PollsComponent extends React.Component{
                 {this.props.poll.votes.length > 0 && 
                 <div className="col-md-4">
                     <h4> Votes </h4>
-
-
 
                     <ul> {d3.nest()
                         .key(function(d) { return d.voteChoice; })
@@ -218,14 +242,6 @@ class PollsComponent extends React.Component{
                         </li>) }
                     </ul>
 
-
-                    {/*
-                    <ul> {this.props.poll.votes.map( (vote ) => 
-                        <li key={this.props.poll.id + vote.username + " "+ vote.voteChoice }>
-                            {vote.username} : {vote.voteChoice} 
-                        </li>) }
-                    </ul>
-                    */}
                 </div>
                 }
 
@@ -245,20 +261,44 @@ class PollsComponent extends React.Component{
                 <br />
             </div>
 
+
+            {/*Share It*/}
             {this.props.user._id && 
-            <div className="button-bar">
-                <a href={"/polls/"+this.props.poll.id}>
-                <span className="fa fa-share-alt-square"></span>
-                 {"   http://" + window.location.hostname + "/polls/"+this.props.poll.id}
+            <div className={"button-bar "+ this.state.detailsState}>
+                 <a href={"https://twitter.com/intent/tweet?url=" + 
+                    "http://" + window.location.hostname +
+                    "/polls/"+this.props.poll.id + 
+                    "&amp;text=" + this.props.poll.question + 
+                    "%20%7C%20fcc-voting"} className="btn btn-block">
+                    
+                    <i className="fa fa-twitter"></i> 
+                    Share on Twitter
                  </a>
             </div>
             }
+            <br />
         </div>
         )
     }
 
 
 }
+
+
+
+class ResponseOptionComponent extends React.Component{
+    render(){
+        return(
+            <div className="responseOption">
+
+                { (this.props.poll.votingOpen == true) && 
+                        <button type="button" className="btn btn-primary" onClick={this.props.onClick } > {this.props.responseOption} </button>
+                }
+            </div>
+        )
+    }
+}
+
 
 
 class VoteGraph extends React.Component{
@@ -393,20 +433,6 @@ class VoteGraph extends React.Component{
         );
     }
 }
-
-class ResponseOptionComponent extends React.Component{
-    render(){
-        return(
-            <div className="responseOption">
-
-                { (this.props.poll.votingOpen == true) && 
-                        <button type="button" className="btn btn-primary" onClick={this.props.onClick } > {this.props.responseOption} </button>
-                }
-            </div>
-        )
-    }
-}
-
 
 
 ReactDOM.render (

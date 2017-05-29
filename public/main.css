@@ -2,3 +2,10 @@
     fill: white;
     font-weight: 900;
 }
+
+.details-div-visible {
+  visibility: visible; }
+
+.details-div-hidden {
+  visibility: hidden;
+  display: none; }
