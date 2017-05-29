@@ -22,12 +22,7 @@ class TestComponent extends React.Component {
         }.bind(this));
     }
 
-/*
-  _handleChangeMessage(e) {
-    this.setState({ message: e.target.value });
-    console.log(this.state.message);
-  }
-*/
+
 
   _handleChangeMessage(e) {
     this.networkSetState({ message: e.target.value });
@@ -64,15 +59,6 @@ class TestComponent extends React.Component {
 
 };
 
-/*
-class TestComponent extends React.Component {
-    render(){
-        return (
-        <div><h1> React is Go! </h1> </div>
-        );
-    }
-}
-*/
 
 class PollsContainerComponent extends React.Component{
     constructor(){
@@ -187,6 +173,8 @@ class PollsComponent extends React.Component{
                 </div>
             </div>
             <div className="row">
+
+                {/* Vote */}
                 <div className="col-md-4">
                     <h4> Response Options</h4>
                     <ul>
@@ -198,49 +186,73 @@ class PollsComponent extends React.Component{
                             poll={this.props.poll} /> )} 
                         </div>
 
+                        {this.props.user._id &&
+                        <div>
                             <label className="col-sm-2">New Response Option</label>
                             <div className="col-sm-10">                        
                                 <input type="text" name="newResponseOption" className="form-control" defaultValue={""}
                                 ref={(input)=> this.newResponseOption = input} 
                                 ></input>
                                 <button className="btn btn-secondary" onClick={this._newResponseOption.bind(this)}>Save</button>
-
                             </div>
-
+                        </div>
+                        }
 
                     </ul>
                 </div>
 
 
+                {/* Votes History */}
                 {this.props.poll.votes.length > 0 && 
                 <div className="col-md-4">
-                        <h4> Votes </h4>
+                    <h4> Votes </h4>
 
+
+
+                    <ul> {d3.nest()
+                        .key(function(d) { return d.voteChoice; })
+                        .rollup(function(v) { return v.length; })
+                        .entries(this.props.poll.votes).map( (voteTotal, i ) => 
+                        <li key={i }>
+                            {voteTotal.key} : {voteTotal.value} 
+                        </li>) }
+                    </ul>
+
+
+                    {/*
                     <ul> {this.props.poll.votes.map( (vote ) => 
                         <li key={this.props.poll.id + vote.username + " "+ vote.voteChoice }>
                             {vote.username} : {vote.voteChoice} 
                         </li>) }
                     </ul>
-
+                    */}
                 </div>
                 }
+
+                {/* Graph */}
                 {this.props.poll.votes.length > 0 && 
                 <div className="col-md-4">
                     <h4> Graph </h4>
                     <VoteGraph poll={this.props.poll}  />
                 </div>
                 }
+
+                {/* Warning for No Votes */}
                 {this.props.poll.votes.length == 0 && 
                     <b> No votes taken yet </b>
                 }
 
-                { (this.props.poll.votingOpen == true) && 
-                    <div>
-                        {/* <button type="button" className="btn btn-primary" onClick={this._voteNow.bind(this)}> Vote Now </button> */}
-                    </div>
-                }
                 <br />
             </div>
+
+            {this.props.user._id && 
+            <div className="button-bar">
+                <a href={"/polls/"+this.props.poll.id}>
+                <span className="fa fa-share-alt-square"></span>
+                 {"   http://" + window.location.hostname + "/polls/"+this.props.poll.id}
+                 </a>
+            </div>
+            }
         </div>
         )
     }
@@ -294,7 +306,7 @@ class VoteGraph extends React.Component{
             .entries(this.props.poll.votes);
         
 
-        let w = 400;
+        let w = 350;
         let r = 100;
         let barPaddingWidth = 0;
         let yPadding = 30;
@@ -305,15 +317,6 @@ class VoteGraph extends React.Component{
         var legendSpacing   = 4;   
         //console.log(this.props.poll);
 
-//        console.log(graphId);
-/*
-        var votesTotals =  d3.nest()
-            .key(function(d) { return d.voteChoice; })
-            .rollup(function(v) { return v.length; })
-            .entries(this.props.poll.votes);
-        //let votesTotals = votesTotalsObject;
-*/
-        //console.log( votesTotals );
         var color = d3.scaleOrdinal(d3.schemeCategory20c); 
 
     
