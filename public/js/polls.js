@@ -69,7 +69,58 @@ class PollsContainerComponent extends React.Component{
     }
 
     componentWillMount(){
-        console.log(this.state.polls)
+        var search = location.search.substring(1);
+        if (search != ""){
+            var searchObject = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
+            console.log(searchObject);
+            searchObject
+        }else{
+            searchObject = {};
+        }
+
+
+        //if (searchObject.user)
+
+
+
+
+        if (searchObject.id){
+            jQuery.ajax({
+                method: 'GET',
+                url:("/api/polls/"+ searchObject.id),
+                success: (polls)=>{
+                    console.log(polls);
+                    this.setState({ polls: polls })
+                }
+            });
+        }else{
+
+            if (searchObject.user){
+                jQuery.ajax({
+                    method: 'GET',
+                    url:"/api/polls/user",
+                    success: (polls)=>{
+                        console.log(polls);
+                        this.setState({ polls: polls })
+                    }
+                });
+            }else{
+                jQuery.ajax({
+                    method: 'GET',
+                    url:"/api/polls",
+                    success: (polls)=>{
+                        console.log(polls);
+                        this.setState({ polls: polls })
+                    }
+                });
+            }
+
+        }
+
+
+
+        /*
+        console.log(this.state.polls);
         jQuery.ajax({
             method: 'GET',
             url:"/api/polls",
@@ -77,6 +128,7 @@ class PollsContainerComponent extends React.Component{
                 this.setState({ polls: polls })
             }
         });
+        */
 
         //this._polls();
         console.log(this.state.polls);
@@ -211,6 +263,7 @@ class PollsComponent extends React.Component{
                         </div>
 
 
+                        {/*New Response Option*/}
                         {this.props.user._id &&
                         <div>
                             <label className="col-sm-2">New Response Option</label>
@@ -267,7 +320,7 @@ class PollsComponent extends React.Component{
             <div className={"button-bar "+ this.state.detailsState}>
                  <a href={"https://twitter.com/intent/tweet?url=" + 
                     "http://" + window.location.hostname +
-                    "/polls/"+this.props.poll.id + 
+                    "/?id="+this.props.poll.id + 
                     "&amp;text=" + this.props.poll.question + 
                     "%20%7C%20fcc-voting"} className="btn btn-block">
                     
