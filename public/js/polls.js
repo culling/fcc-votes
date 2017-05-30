@@ -272,7 +272,7 @@ class PollsComponent extends React.Component{
                                 <input type="text" name="newResponseOption" className="form-control" defaultValue={""}
                                 ref={(input)=> this.newResponseOption = input} 
                                 ></input>
-                                <button className="btn btn-secondary" onClick={this._newResponseOption.bind(this)}>Save</button>
+                                <button className="btn btn-block btn-primary" onClick={this._newResponseOption.bind(this)}>Save</button>
                             </div>
                         </div>
                         }
@@ -346,7 +346,7 @@ class ResponseOptionComponent extends React.Component{
             <div className="responseOption">
 
                 { (this.props.poll.votingOpen == true) && 
-                        <button type="button" className="btn btn-primary" onClick={this.props.onClick } > {this.props.responseOption} </button>
+                        <button type="button" className="btn btn-block btn-primary response-option" onClick={this.props.onClick } > {this.props.responseOption} </button>
                 }
             </div>
         )

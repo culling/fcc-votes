@@ -9,3 +9,8 @@
 .details-div-hidden {
   visibility: hidden;
   display: none; }
+
+.response-option{
+  border: 1px solid lightblue;
+  border-radius: 5px;
+}
