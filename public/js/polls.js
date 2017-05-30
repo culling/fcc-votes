@@ -64,7 +64,9 @@ class PollsContainerComponent extends React.Component{
     constructor(){
         super();
         this.state={
-            polls: []
+            polls: [],
+            detailsState: "details-div-hidden"
+
         }
     }
 
@@ -83,14 +85,15 @@ class PollsContainerComponent extends React.Component{
 
 
 
-
         if (searchObject.id){
             jQuery.ajax({
                 method: 'GET',
                 url:("/api/polls/"+ searchObject.id),
                 success: (polls)=>{
-                    console.log(polls);
-                    this.setState({ polls: polls })
+                    //console.log(polls);
+                    this.setState({detailsState: "details-div-visible"});
+                    this.setState({polls: polls });
+                    //console.log(this.state);
                 }
             });
         }else{
@@ -118,20 +121,7 @@ class PollsContainerComponent extends React.Component{
         }
 
 
-
-        /*
-        console.log(this.state.polls);
-        jQuery.ajax({
-            method: 'GET',
-            url:"/api/polls",
-            success: (polls)=>{
-                this.setState({ polls: polls })
-            }
-        });
-        */
-
-        //this._polls();
-        console.log(this.state.polls);
+        //console.log(this.state.polls);
 
         jQuery.ajax({
             method: 'GET',
@@ -140,29 +130,29 @@ class PollsContainerComponent extends React.Component{
                 this.setState({ user: user })
             }
         });
-        console.log(this.state.user);
+        //console.log(this.state.user);
 
     }
 
     _handleChangeMessage() {
         this.setState({ polls: this.state.polls });
-        console.log(this.state.message);
+
     }
 
 
 
     componentWillUpdate(){
-        console.log(this.state.polls);        
+        //console.log(this.state.polls);        
     }
 
     render(){
         return( 
             <div id="polls-container" className="polls-container">
-                <h1> Open Polls </h1>
                     { this.state.polls.map( (pollObject, i) => 
                     <PollsComponent key={i} 
                         poll={pollObject} 
-                        user={this.state.user} 
+                        user={this.state.user}
+                        detailsState={this.state.detailsState }
                         /*voteAction={this._handleChangeMessage.bind(this)}*/
 
                          /> ) }
@@ -173,9 +163,21 @@ class PollsContainerComponent extends React.Component{
 }
 
 class PollsComponent extends React.Component{
-    constructor(){
-        super();
-        this.state = {detailsState: "details-div-hidden"};
+    constructor(props){
+        super(props);
+        this.state = ({
+            detailsState: ""
+        });
+    }
+
+    componentWillMount(){
+        //var detailsState = this.props.detailsState;
+        
+        this.setState({detailsState: this.props.detailsState});
+        //let detailsState = ((this.state.detailsState === "details-div-visible" )? "details-div-hidden": "details-div-visible");
+        //this.setState({detailsState: detailsState });
+
+        //console.log(this.state.detailsState);
     }
 
     _voteNow (responseOption, username){
@@ -218,7 +220,6 @@ class PollsComponent extends React.Component{
         let detailsState = ((this.state.detailsState === "details-div-visible" )? "details-div-hidden": "details-div-visible");
         this.setState({detailsState: detailsState });
         //this.forceUpdate();
-
     }
 
 
