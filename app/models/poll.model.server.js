@@ -131,5 +131,28 @@ exports.update = function(document, res ){
                 }
             );
     });
+}
 
+
+exports.delete = function(document, res ){
+    //console.log(collectionName);
+    console.log(document);
+    var poll    = document;
+    delete poll._id;
+
+    console.log("within Delete");
+    //console.log( poll );
+
+    var db = mongo.connect(mongoUrl);
+    mongo.connect(mongoUrl, function(err, db){
+        if(err){console.error(err)};
+        var collection = db.collection( collectionName );
+        collection.deleteOne({ id: poll.id}, function(err, result){
+                    if(err){console.error(err)}
+                    console.log("deleted document");
+                    //console.log(result );
+                    db.close();
+                }
+            );
+    });
 }

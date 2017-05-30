@@ -127,6 +127,31 @@ router.post("/polls/update", function(req, res){
 });
 
 
+//DELETE
+router.delete("/polls/delete/:id", function(req, res){
+    function listAllProperties(o) {
+        var objectToInspect;     
+        var result = [];
+        
+        for(objectToInspect = o; objectToInspect !== null; objectToInspect = Object.getPrototypeOf(objectToInspect)) {  
+        result = result.concat(Object.getOwnPropertyNames(objectToInspect));  
+        }
+	
+	    return result; 
+    }
+
+
+    var props =  listAllProperties(req.body);
+    var poll = JSON.parse(props[0] ).poll;
+
+    console.log(poll);
+
+    mongoExport.polls.delete(poll, function(res){
+        console.log(res);
+    });
+
+});
+
 
 router.get("/polls/:id", function(req, res){
 

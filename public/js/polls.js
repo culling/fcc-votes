@@ -215,6 +215,20 @@ class PollsComponent extends React.Component{
         this.forceUpdate();
     }
 
+    _deletePoll(){
+        let poll     = Object.assign( this.props.poll);
+        jQuery.ajax({
+            type: 'DELETE',
+            dataType: 'json',
+            url:("/api/polls/delete/" + this.props.poll.id),
+            data: JSON.stringify({ poll }),
+            success:(
+                window.location="/"
+            )
+        });
+
+        
+    }
 
     _showDetailsPane(){
         let detailsState = ((this.state.detailsState === "details-div-visible" )? "details-div-hidden": "details-div-visible");
@@ -244,9 +258,7 @@ class PollsComponent extends React.Component{
                         <div>Poll Created On: {this.props.poll.date} </div>
                         <div>Poll Created By: {this.props.poll.createdByUser} </div>
                         {(this.props.user.username == this.props.poll.createdByUser) &&
-                            <a href={"api/polls/delete/"+ this.props.poll.id }> 
-                                <button className="btn btn-danger"> DELETE THE POLL </button>
-                            </a>
+                            <button className="btn btn-danger" onClick={this._deletePoll.bind(this)}> DELETE THE POLL </button>
                         }
                     </div>
                 </div>
