@@ -3,63 +3,6 @@ $('document').ready(function() {
     
 });
 
-/*
-class TestComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { message: '' };
-    }
-
-    componentDidMount() {
-        // grab state from the server
-        $.ajax({ url: '/api/message' })
-            .then(function(data) {
-            this.setState(data);
-            }.bind(this))
-        // listen for state changes on the socket
-        socket.on('new state', function(newState) {
-            this.setState(newState);
-        }.bind(this));
-    }
-
-
-
-  _handleChangeMessage(e) {
-    this.networkSetState({ message: e.target.value });
-    console.log(this.state.message);
-  }
-  
-    networkSetState(newStateDiff) {
-        // do some awesome network things here
-        // 1. put the entire state into the database
-        this.saveStateToDB();
-        // 2. put diffs onto the websocket
-        this.postToSocket(newStateDiff);
-        // 3. set state as per usual
-        this.setState(newStateDiff);
-    }
-
-
-    postToSocket(newStateDiff) {
-        socket.emit('new state', newStateDiff);
-    }
-
-    saveStateToDB() {
-        $.ajax({ url: '/api/message', type: 'PUT', data: this.state });
-    }
-
-
-    render() {
-        return (
-        <div><h1> React is Go! </h1> 
-            <input type="text" value={this.state.message} onChange={this._handleChangeMessage.bind(this)} />
-        </div>
-    )}
-
-
-};
-*/
-
 class PollsContainerComponent extends React.Component{
     constructor(){
         super();
@@ -79,15 +22,6 @@ class PollsContainerComponent extends React.Component{
         }else{
             searchObject = {};
         }
-
-
-        //if (searchObject.user)
-
-
-
-
-
-        //console.log(this.state.polls);
 
         jQuery.ajax({
             method: 'GET',
@@ -142,7 +76,6 @@ class PollsContainerComponent extends React.Component{
 
             }
         });
-        //console.log(this.state.user);
 
     }
 
@@ -152,11 +85,6 @@ class PollsContainerComponent extends React.Component{
     }
 
 
-
-    componentWillUpdate(){
-        //console.log(this.state.polls);        
-    }
-
     render(){
         return( 
             <div id="polls-container" className="polls-container">
@@ -165,12 +93,11 @@ class PollsContainerComponent extends React.Component{
                         poll={pollObject} 
                         user={this.state.user}
                         detailsState={this.state.detailsState }
-                        /*voteAction={this._handleChangeMessage.bind(this)}*/
 
                          /> ) }
                 {(this.state.polls.length == 0) &&
                     <div>
-                        No Polls Found! - Click the "New Poll button to make a new poll"
+                        No Polls Found!
                     </div>
                 }
             </div>
@@ -186,14 +113,8 @@ class PollsComponent extends React.Component{
         });
     }
 
-    componentWillMount(){
-        //var detailsState = this.props.detailsState;
-        
+    componentWillMount(){        
         this.setState({detailsState: this.props.detailsState});
-        //let detailsState = ((this.state.detailsState === "details-div-visible" )? "details-div-hidden": "details-div-visible");
-        //this.setState({detailsState: detailsState });
-
-        //console.log(this.state.detailsState);
     }
 
     _voteNow (responseOption, username){
@@ -528,9 +449,3 @@ class VoteGraph extends React.Component{
 ReactDOM.render (
     <PollsContainerComponent />, document.getElementById('mount-point')
 )
-
-/*
-ReactDOM.render (
-    <TestComponent />, document.getElementById('test-point')
-)
-*/

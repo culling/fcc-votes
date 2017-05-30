@@ -4,7 +4,7 @@ $('document').ready(function() {
 class TestComponent extends React.Component {
     render(){
         return (
-        <div> React is Go! </div>
+        <div>  </div>
         );
     }
 }
@@ -208,9 +208,4 @@ class ResponseOption extends React.Component{
 
 ReactDOM.render (
     <PollsContainerComponent />, document.getElementById('mount-point')
-)
-
-
-ReactDOM.render (
-    <TestComponent />, document.getElementById('test-point')
 )
