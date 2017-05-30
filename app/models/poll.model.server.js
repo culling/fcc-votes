@@ -136,11 +136,11 @@ exports.update = function(document, res ){
 
 exports.delete = function(document, res ){
     //console.log(collectionName);
-    console.log(document);
+    //console.log(document);
     var poll    = document;
     delete poll._id;
 
-    console.log("within Delete");
+    //console.log("within Delete");
     //console.log( poll );
 
     var db = mongo.connect(mongoUrl);
@@ -149,7 +149,7 @@ exports.delete = function(document, res ){
         var collection = db.collection( collectionName );
         collection.deleteOne({ id: poll.id}, function(err, result){
                     if(err){console.error(err)}
-                    console.log("deleted document");
+                    //console.log("deleted document");
                     //console.log(result );
                     db.close();
                 }

@@ -85,40 +85,6 @@ class PollsContainerComponent extends React.Component{
 
 
 
-        if (searchObject.id){
-            jQuery.ajax({
-                method: 'GET',
-                url:("/api/polls/"+ searchObject.id),
-                success: (polls)=>{
-                    //console.log(polls);
-                    this.setState({detailsState: "details-div-visible"});
-                    this.setState({polls: polls });
-                    //console.log(this.state);
-                }
-            });
-        }else{
-
-            if (searchObject.user){
-                jQuery.ajax({
-                    method: 'GET',
-                    url:"/api/polls/user",
-                    success: (polls)=>{
-                        console.log(polls);
-                        this.setState({ polls: polls })
-                    }
-                });
-            }else{
-                jQuery.ajax({
-                    method: 'GET',
-                    url:"/api/polls",
-                    success: (polls)=>{
-                        console.log(polls);
-                        this.setState({ polls: polls })
-                    }
-                });
-            }
-
-        }
 
 
         //console.log(this.state.polls);
@@ -128,6 +94,52 @@ class PollsContainerComponent extends React.Component{
             url:"/api/user",
             success: (user)=>{
                 this.setState({ user: user })
+
+
+
+                if (searchObject.id){
+                    jQuery.ajax({
+                        method: 'GET',
+                        url:("/api/polls/"+ searchObject.id),
+                        success: (polls)=>{
+                            //console.log(polls);
+                            this.setState({detailsState: "details-div-visible"});
+                            this.setState({polls: polls });
+                            //console.log(this.state);
+                        }
+                    });
+                }else{
+
+                    if (searchObject.user){
+                        jQuery.ajax({
+                            method: 'GET',
+                            url:"/api/polls/user",
+                            success: (polls)=>{
+                                if (! user._id){
+                                    window.location = "/";
+                                } 
+                                console.log(polls);
+                                this.setState({detailsState: "details-div-hidden"});
+                                this.setState({ polls: polls })
+                            }
+                        });
+                    }else{
+                        jQuery.ajax({
+                            method: 'GET',
+                            url:"/api/polls",
+                            success: (polls)=>{
+                                console.log(polls);
+                                this.setState({ polls: polls })
+                            }
+                        });
+                    }
+
+                }
+
+
+
+
+
             }
         });
         //console.log(this.state.user);
@@ -156,7 +168,11 @@ class PollsContainerComponent extends React.Component{
                         /*voteAction={this._handleChangeMessage.bind(this)}*/
 
                          /> ) }
-
+                {(this.state.polls.length == 0) &&
+                    <div>
+                        No Polls Found! - Click the "New Poll button to make a new poll"
+                    </div>
+                }
             </div>
         );
     }
@@ -284,12 +300,14 @@ class PollsComponent extends React.Component{
                         {/*New Response Option*/}
                         {this.props.user._id &&
                         <div>
-                            <label className="col-sm-2">New Response Option</label>
-                            <div className="col-sm-10">                        
-                                <input type="text" name="newResponseOption" className="form-control" defaultValue={""}
+                            {/*<label className="new-response">New Response Option</label>*/}
+                            <div className="input-group">                        
+                                <input type="text" name="newResponseOption" className="form-control" defaultValue="" placeholder="New Response Option" 
                                 ref={(input)=> this.newResponseOption = input} 
                                 ></input>
-                                <button className="btn btn-block btn-primary" onClick={this._newResponseOption.bind(this)}>Save</button>
+                                <span className="input-group-btn">
+                                    <button className="btn btn-block btn-primary" onClick={this._newResponseOption.bind(this)}>Save</button>
+                                </span>
                             </div>
                         </div>
                         }
@@ -348,7 +366,7 @@ class PollsComponent extends React.Component{
                  </a>
             </div>
             }
-            <br />
+
         </div>
         )
     }
