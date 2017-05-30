@@ -243,10 +243,15 @@ class PollsComponent extends React.Component{
                         <div>Meeting: {this.props.poll.meeting} </div>
                         <div>Poll Created On: {this.props.poll.date} </div>
                         <div>Poll Created By: {this.props.poll.createdByUser} </div>
+                        {(this.props.user.username == this.props.poll.createdByUser) &&
+                            <a href={"api/polls/delete/"+ this.props.poll.id }> 
+                                <button className="btn btn-danger"> DELETE THE POLL </button>
+                            </a>
+                        }
                     </div>
                 </div>
             </div>
-
+            <br />
 
 
             {/*Interactive section*/}
@@ -283,7 +288,8 @@ class PollsComponent extends React.Component{
 
 
                 {/* Votes History */}
-                {this.props.poll.votes.length > 0 && 
+                {(this.props.poll.votes.length > 0 && this.props.user._id ) && 
+ 
                 <div className="col-md-4">
                     <h4> Votes </h4>
 
